@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="popup.css">
+  <title>Camera Viewer</title>
+</head>
+<body>
+
+  <div class="main-container">
+    <h1>Camera Viewer page</h1>
+    
+    <form id="urlForm" class="url-form">
+      <input type="url" name="url" required id="url" />
+      <button>Submit</button>
+      <label for="url">Enter url and press submit</label>
+    </form>
+
+    <!-- Camera Viewer -->
+    <div class="camera-container hide">
+      <img src="" alt="">
+      <div class="camera-controls">
+        <button id='stopBtn'>stop</button>
+      </div>
+    </div>
+  
+    <!-- User message/error/info popup -->
+    <div id='message' class="msg-container hidden">
+      <button type="button" aria-label="close">X</button>
+      <div id="msgTxt"></div>
+    </div>
+  
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

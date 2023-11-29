@@ -1,0 +1,22 @@
+{
+  "browser_action": {
+    "browser_style": true,
+    "default_title": "Camera Viewer",
+    "default_icon": {
+      "19": "icons/window19.png",
+      "38": "icons/window38.png"
+    }
+  },
+  "icons": {
+    "48": "icons/window.png",
+    "96": "icons/window@2x.png"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "description": "View Your IP Camera/s",
+  "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/window-manipulator",
+  "manifest_version": 2,
+  "name": "Camera Viewer",
+  "version": "1.0"
+}

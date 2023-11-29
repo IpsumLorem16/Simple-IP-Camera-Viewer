@@ -1,0 +1,151 @@
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  background-image: url('./assets/Images/background.jpg');
+  background-size: cover;
+  background-position: bottom;
+}
+
+.main-container {
+  max-width: 900px;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  flex-direction: column;
+  margin: 0 auto;
+  flex: 1 1 100%;
+}
+
+.main-container.player-visible {
+  justify-content: center;
+}
+
+.main-container h1 {
+  text-align:center;
+  margin-bottom: 50px;
+  font-size:60px;
+  margin-top:100px;
+  color: white;
+  font-weight:100;
+}
+
+.url-form {
+  --input-radius: 30px; 
+}
+
+.url-form input {
+  border: none;
+  background: #fff;
+  border-radius: var(--input-radius) 0px 0px var(--input-radius);
+  padding: 17px;
+  height: 45px;
+  width: 400px;
+  max-width: 100%;
+}
+
+.url-form button {
+  border: 0;
+  background: rgba(66, 65, 65, 0.678);
+  color: white;
+  margin-left: -5px;
+  height: 45px;
+  border-radius: 0px var(--input-radius) var(--input-radius) 0px;
+  padding-right: 15px;
+  padding-left: 10px;
+  cursor: pointer;
+}
+
+.url-form label {
+  display: block;
+  color:white;
+  font-size: 14px;
+  margin-top: 15px;
+  margin-left: 20px;
+}
+
+.msg-container {
+  --fade-in-time: 700ms;
+  --fade-out-time: 300ms;
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  width:600px;
+  background: lightblue;
+  border-radius: 4px;
+  padding: 10px 15px;
+  margin: 20px;
+  color:rgba(21, 21, 21, 0.67);
+  gap: 20px;
+  justify-content: space-between;
+  opacity:1;
+  transition: visibility 0s, opacity var(--fade-in-time) ease;
+  visibility: visible;
+}
+.msg-container.hidden {
+  opacity: 0;
+  transition: visibility 0s linear var(--fade-out-time), opacity var(--fade-out-time) ease-in, background 0s linear var(--fade-out-time), color 0s linear var(--fade-out-time);
+}
+.msg-container.hidden button {
+  transition: background 0s linear var(--fade-out-time);
+}
+.msg-container.warn {
+  background: lightcoral;
+  color: rgba(21, 21, 21, 0.82);
+}
+.msg-container.success {
+  background: lightgreen;
+}
+
+.msg-container.success button{
+  background: rgb(41, 117, 6);
+}
+
+.msg-container.warn button{
+  background: rgb(193, 19, 19);
+}
+
+.msg-container button {
+  order: 1;
+  border: none;
+  border-radius: 50%;
+  display: inline-flex;
+  height: 20px;
+  width: 20px;
+  justify-content: center;
+  align-items: center;
+  background: rgb(35, 124, 153);
+  color: rgb(255, 251, 251);
+  font-size: 14px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.camera-container {
+  width:100%;
+  height:500px;
+  max-height: 90vh;
+}
+
+.camera-container img {
+  width: 100%;
+  height:100%;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.hide {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity:0;
+  }
+  to {
+    opacity:100;
+  }
+}
