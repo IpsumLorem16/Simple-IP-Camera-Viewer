@@ -65,6 +65,27 @@ body {
   margin-left: 20px;
 }
 
+/* camera controls */
+
+/* pause/play button */
+.camera-controls #playPauseBtn span {
+  pointer-events: none;
+}
+/* buttons state: pause */
+.camera-controls #playPauseBtn[data-state="pause"] .pause-text {
+  display: default;
+}
+.camera-controls #playPauseBtn[data-state="pause"] .play-text {
+  display: none;
+}
+/* buttons state: play */
+.camera-controls #playPauseBtn[data-state="play"] .play-text {
+  display: default;
+}
+.camera-controls #playPauseBtn[data-state="play"] .pause-text {
+  display: none;
+}
+
 .msg-container {
   --fade-in-time: 700ms;
   --fade-out-time: 300ms;

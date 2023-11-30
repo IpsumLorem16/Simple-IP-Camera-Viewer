@@ -1,3 +1,7 @@
+// for testing only 
+document.getElementById('url').value = 'https://root:ismart12@192.168.1.45/cgi-bin/currentpic.cgi'
+// for testing only end
+
 // Url input form
 const urlForm = document.getElementById('urlForm');
 
@@ -10,7 +14,7 @@ const hideForm = () => {
   // hide title
   const titleEl = document.querySelector('h1');
   titleEl.classList.add('hide');
-
+  
 }
 const showForm = () => {
   urlForm.classList.remove('hide');
@@ -26,7 +30,7 @@ const handleUrlFormSubmit = (e) => {
   urlInput.value = ''; //clear input on page
   cameraViewer.init(url);
   console.log(url);
-
+  
 
 }
 
@@ -46,27 +50,31 @@ let cameraViewer = {
   playing: false,
   play: function () {
     this.playing = true;
+    // Recursive function
     const updateImage = () => {
       console.log('updateimage')
-
-      let newImage = new Image();
-      newImage.onload = () => {
-        this.imageEl.src = newImage.src;
-        if(this.playing === true && this.__loading === false)
-          this.__loading = false;
-          // window.setTimeout(80, updateImage)
-          window.requestAnimationFrame(updateImage);
-        console.log('onload')
-      };
-      newImage.src = `${this.url}?cacheBuster=${Date.now()}`; //
-      this.__loading = true;
-      // if(this.playing === true) {
+      if (this.playing === true) {        
+        let newImage = new Image();
+        newImage.src = `${this.url}?cacheBuster=${Date.now()}`; //
+        this.__loading = true;
         
-      // }
+        newImage.onload = () => {
+          console.log('onload')
+          if(this.playing === true && this.__loading === true) {
+            this.imageEl.src = newImage.src;
+            this.__loading = false;
+            window.requestAnimationFrame(updateImage);
+            console.log('request Animation frame')
+          }
+        };
+      }
     }
     window.requestAnimationFrame(updateImage)
   },
-  pause: function() {},
+  pause: function() {
+    this.playing = false;
+    this.loading = false;
+  },
   showPlayer: function() {
     this.cameraContainerEl.classList.remove('hide');
     document.querySelector('.main-container').classList.add('player-visible');
@@ -84,6 +92,25 @@ let cameraViewer = {
   },
 
 }
+
+// camera controls
+const playPauseBtn = document.getElementById('playPauseBtn');
+
+playPauseBtn.addEventListener('click', (event) => {
+  const button = event.target;
+  const state = button.getAttribute('data-state');
+  if (state === 'pause') {
+    console.log('pause button pressed');
+    cameraViewer.pause();
+    button.setAttribute('data-state', 'play');
+  } else if (state === 'play') {
+    console.log('play button pressed');
+    cameraViewer.play()
+    button.setAttribute('data-state', 'pause');
+  }
+})
+
+
 
 
 // Dismissable alert/popup.
