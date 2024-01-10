@@ -93,9 +93,11 @@ let cameraViewer = {
 
 }
 
-// camera controls
+// Camera Controls
 const playPauseBtn = document.getElementById('playPauseBtn');
+const snapshotBtn = document.getElementById('snapshotBtn');
 
+//Play or pause live view
 playPauseBtn.addEventListener('click', (event) => {
   const button = event.target;
   const state = button.getAttribute('data-state');
@@ -109,6 +111,34 @@ playPauseBtn.addEventListener('click', (event) => {
     button.setAttribute('data-state', 'pause');
   }
 })
+
+//Take snapshot
+snapshotBtn.addEventListener('click', e => {
+  console.log('snapshot pressed')
+  // Grab currently displayed image
+  // let img = new Image().src = cameraViewer.imageEl.src;
+  let img = cameraViewer.imageEl;
+  // Add image to canvas, and create blob
+  let canvas = document.createElement('canvas')
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+
+  let ctx = canvas.getContext('2d');
+  ctx.drawImage(img, 0, 0);
+
+  canvas.toBlob(function(blob) {
+    let link = document.createElement('a');
+    link.download = 'snapshot.png';
+
+    link.href = URL.createObjectURL(blob);
+    link.click();
+
+    URL.revokeObjectURL(link.href);
+  }, 'image/png');
+})
+
+//End of Camera Controls
+
 
 
 
@@ -158,3 +188,21 @@ let userMessage = {
 userMessage.init();
 userMessage.new('This is Just a test message DO NOT BE ALARMED!', 'warn');
 
+// Modify Headers on image requests from webcams
+// Removes CORS restrictions, allowing us to modify and save images
+// Requires host_permissions in manifest
+function setHeader(e) {
+  console.log("header Handler")
+  const newHeader = {
+    "name" : "Access-Control-Allow-Origin",
+    "value": "*"
+  };
+  e.responseHeaders.push(newHeader);
+  return {responseHeaders: e.responseHeaders};
+}
+
+browser.webRequest.onHeadersReceived.addListener(
+  setHeader,
+  {urls: ["<all_urls>"]},
+  ["blocking", "responseHeaders"]
+)
