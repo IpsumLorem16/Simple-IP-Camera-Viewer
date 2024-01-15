@@ -1,12 +1,17 @@
 // for testing only 
 document.getElementById('url').value = 'https://root:ismart12@192.168.1.45/cgi-bin/currentpic.cgi'
+// userMessage.new('This is Just a test message DO NOT BE ALARMED!', 'warn');
+
 // for testing only end
 
-// Url input form
+/** Url input form **/
+
 const urlForm = document.getElementById('urlForm');
 
-const validateUrlForm = (input) => {
 
+const validateUrlForm = (input) => {
+//validate url, and make a test connection. 
+//show toast, if there is a problem like 404, or unsecure connection error(and how to fix it)
 }
 
 const hideForm = () => {
@@ -39,8 +44,11 @@ urlForm.addEventListener('submit', (e)=> {
   // validateUrlForm();
   handleUrlFormSubmit(e);
 })
+/** End of Url input form **/
 
-// Camera viewer
+
+/** Camera viewer **/
+// To Do: Add connection error handling
 let cameraViewer = {
   cameraContainerEl : document.querySelector('.camera-container'),
   imageEl: document.querySelector('.camera-container').children[0], 
@@ -48,6 +56,7 @@ let cameraViewer = {
   __loading:false,
   url : null,
   playing: false,
+  isFullscreen: false,
   play: function () {
     this.playing = true;
     // Recursive function
@@ -85,17 +94,35 @@ let cameraViewer = {
     document.querySelector('.main-container').classList.remove('player-visible');
     showForm();
   },
+  toggleFullscreen: function(){
+    //Toggles camera-viewer fullscreen and not.
+    // relies on event listener added in this.init()
+    this.isFullscreen ? document.exitFullscreen() : this.cameraContainerEl.requestFullscreen(); // triggers _onFullscreenChange
+  },
+  _onFullscreenChange: function(){
+    //If fullscreen & element is 'camera-container'
+    if (document.fullscreenElement?.classList.contains('camera-container')) {
+      this.cameraContainerEl.classList.add('fullscreen');
+      this.isFullscreen = true;
+    } else {
+      this.cameraContainerEl.classList.remove('fullscreen');
+      this.isFullscreen = false;
+    }
+  },
   init: function(url) {
     this.url = url;
     this.play();
     this.showPlayer();
+    this.cameraContainerEl.addEventListener("fullscreenchange", this._onFullscreenChange.bind(this));
   },
 
 }
+/** End of Camera Veiwer **/
 
-// Camera Controls
+/** Camera Controls **/
 const playPauseBtn = document.getElementById('playPauseBtn');
 const snapshotBtn = document.getElementById('snapshotBtn');
+const fullscreenBtn = document.getElementById('fullscreenBtn');
 
 //Play or pause live view
 playPauseBtn.addEventListener('click', (event) => {
@@ -137,15 +164,17 @@ snapshotBtn.addEventListener('click', e => {
   }, 'image/png');
 })
 
-//End of Camera Controls
+//Toggle fullscreen
+fullscreenBtn.addEventListener('click', (e)=>{
+  cameraViewer.toggleFullscreen();
+})
+
+/**End of Camera Controls**/
 
 
-
-
-
-// Dismissable alert/popup.
-// userMessage.new($text, $type), to display message.
-// $type = 'warn', 'success', or blank for standard.
+/** Dismissable Toast **/
+//    userMessage.new($text, $type), to display message.
+//    $type = 'warn', 'success', or blank for standard.
 
 let userMessage = {
   messageEl:null,//document.getElementById('message'),
@@ -186,11 +215,14 @@ let userMessage = {
   }
 }
 userMessage.init();
-userMessage.new('This is Just a test message DO NOT BE ALARMED!', 'warn');
+/** End of Dismissable Toast **/
 
-// Modify Headers on image requests from webcams
-// Removes CORS restrictions, allowing us to modify and save images
-// Requires host_permissions in manifest
+
+/** Modify Headers **/
+//    Modify Headers on image requests from webcams
+//    Removes CORS restrictions, allowing us to modify and save images
+//    Requires host_permissions in manifest:
+//      "webRequest", "webRequestBlocking", "<all_urls>"
 function setHeader(e) {
   console.log("header Handler")
   const newHeader = {
@@ -206,3 +238,4 @@ browser.webRequest.onHeadersReceived.addListener(
   {urls: ["<all_urls>"]},
   ["blocking", "responseHeaders"]
 )
+/** End of Modify Headers **/

@@ -31,6 +31,7 @@ body {
   font-weight:100;
 }
 
+/* URL Input */
 .url-form {
   --input-radius: 30px; 
 }
@@ -64,9 +65,27 @@ body {
   margin-top: 15px;
   margin-left: 20px;
 }
+/* URL Input End */
 
-/* camera controls */
+/** Camera Viewer **/
+ .camera-container {
+  width:100%;
+  height:500px;
+  max-height: 90vh;
+  position: relative;
+}
+.camera-container img {
+  width: 100%;
+  height:100%;
+}
 
+/* Camera Controls */
+
+.camera-controls {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
 /* pause/play button */
 .camera-controls #playPauseBtn span {
   pointer-events: none;
@@ -85,7 +104,27 @@ body {
 .camera-controls #playPauseBtn[data-state="play"] .pause-text {
   display: none;
 }
+/* Fullscreen button */
+.camera-controls #fullscreenBtn span {
+  pointer-events: none;
+}
+.camera-viewer:fullscreen #fullscreenBtn .not-fullscreen-txt {
+  display: none;
+}
+.camera-viewer:fullscreen #fullscreenBtn .fullscreen-txt {
+  display: default;
+}
+#fullscreenBtn .fullscreen-txt {
+  display:none;
+}
+#fullscreenBtn .not-fullscreen-txt {
+  display: default;
+}
 
+
+/** Camera Viewer end **/
+
+/* Toast */
 .msg-container {
   --fade-in-time: 700ms;
   --fade-out-time: 300ms;
@@ -142,18 +181,8 @@ body {
   font-weight:bold;
   cursor:pointer;
 }
-
-.camera-container {
-  width:100%;
-  height:500px;
-  max-height: 90vh;
-}
-
-.camera-container img {
-  width: 100%;
-  height:100%;
-}
-
+ /* Toast end */
+ 
 .hidden {
   visibility: hidden;
 }
