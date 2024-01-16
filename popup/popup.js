@@ -100,13 +100,16 @@ let cameraViewer = {
     this.isFullscreen ? document.exitFullscreen() : this.cameraContainerEl.requestFullscreen(); // triggers _onFullscreenChange
   },
   _onFullscreenChange: function(){
+    const fullscreenBtnEl = document.getElementById('fullscreenBtn')
     //If fullscreen & element is 'camera-container'
     if (document.fullscreenElement?.classList.contains('camera-container')) {
       this.cameraContainerEl.classList.add('fullscreen');
       this.isFullscreen = true;
+      fullscreenBtnEl.title = 'Exit full screen';
     } else {
       this.cameraContainerEl.classList.remove('fullscreen');
       this.isFullscreen = false;
+      fullscreenBtnEl.title = 'Full screen';
     }
   },
   init: function(url) {
@@ -132,10 +135,12 @@ playPauseBtn.addEventListener('click', (event) => {
     console.log('pause button pressed');
     cameraViewer.pause();
     button.setAttribute('data-state', 'play');
+    button.title = 'Play';
   } else if (state === 'play') {
     console.log('play button pressed');
     cameraViewer.play()
     button.setAttribute('data-state', 'pause');
+    button.title = 'Pause';
   }
 })
 

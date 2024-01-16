@@ -85,23 +85,33 @@ body {
   position: absolute;
   bottom: 0;
   width: 100%;
+  pointer-events: none;
 }
+
+.camera-controls button {
+  pointer-events: all;
+}
+
+.camera-controls button svg {
+  max-width:25px;
+}
+
 /* pause/play button */
 .camera-controls #playPauseBtn span {
   pointer-events: none;
 }
 /* buttons state: pause */
-.camera-controls #playPauseBtn[data-state="pause"] .pause-text {
+.camera-controls #playPauseBtn[data-state="pause"] .pause-icon {
   display: default;
 }
-.camera-controls #playPauseBtn[data-state="pause"] .play-text {
+.camera-controls #playPauseBtn[data-state="pause"] .play-icon {
   display: none;
 }
 /* buttons state: play */
-.camera-controls #playPauseBtn[data-state="play"] .play-text {
+.camera-controls #playPauseBtn[data-state="play"] .play-icon {
   display: default;
 }
-.camera-controls #playPauseBtn[data-state="play"] .pause-text {
+.camera-controls #playPauseBtn[data-state="play"] .pause-icon {
   display: none;
 }
 /* Fullscreen button */
@@ -110,17 +120,17 @@ body {
 }
 
 /* when not in fullscreen */
-.camera-container:not(:fullscreen) #fullscreenBtn .go-fullscreen-text {
+.camera-container:not(:fullscreen) #fullscreenBtn .go-fullscreen-icon {
   display:default;
 }
-.camera-container:not(:fullscreen) #fullscreenBtn .exit-fullscreen-text {
+.camera-container:not(:fullscreen) #fullscreenBtn .exit-fullscreen-icon {
   display:none;
 }
 /* when fullscreen */
-.camera-container:fullscreen #fullscreenBtn .go-fullscreen-text {
+.camera-container:fullscreen #fullscreenBtn .go-fullscreen-icon {
   display:none;
 }
-.camera-container:fullscreen #fullscreenBtn .exit-fullscreen-text {
+.camera-container:fullscreen #fullscreenBtn .exit-fullscreen-icon {
   display:default;
 }
 
