@@ -108,19 +108,21 @@ body {
 .camera-controls #fullscreenBtn span {
   pointer-events: none;
 }
-.camera-viewer:fullscreen #fullscreenBtn .not-fullscreen-txt {
-  display: none;
+
+/* when not in fullscreen */
+.camera-container:not(:fullscreen) #fullscreenBtn .go-fullscreen-text {
+  display:default;
 }
-.camera-viewer:fullscreen #fullscreenBtn .fullscreen-txt {
-  display: default;
-}
-#fullscreenBtn .fullscreen-txt {
+.camera-container:not(:fullscreen) #fullscreenBtn .exit-fullscreen-text {
   display:none;
 }
-#fullscreenBtn .not-fullscreen-txt {
-  display: default;
+/* when fullscreen */
+.camera-container:fullscreen #fullscreenBtn .go-fullscreen-text {
+  display:none;
 }
-
+.camera-container:fullscreen #fullscreenBtn .exit-fullscreen-text {
+  display:default;
+}
 
 /** Camera Viewer end **/
 
