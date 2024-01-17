@@ -147,7 +147,6 @@ playPauseBtn.addEventListener('click', (event) => {
 // Take snapshot
 // Grabs currently displayed image, and downloads automatically
 //To do: 
-// > add date and time to filename
 // > add visual effect to show snapshot taken. ie: screen flash + large icon on screen
 snapshotBtn.addEventListener('click', e => {
   let img = cameraViewer.imageEl;
