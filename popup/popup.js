@@ -144,11 +144,12 @@ playPauseBtn.addEventListener('click', (event) => {
   }
 })
 
-//Take snapshot
+// Take snapshot
+// Grabs currently displayed image, and downloads automatically
+//To do: 
+// > add date and time to filename
+// > add visual effect to show snapshot taken. ie: screen flash + large icon on screen
 snapshotBtn.addEventListener('click', e => {
-  console.log('snapshot pressed')
-  // Grab currently displayed image
-  // let img = new Image().src = cameraViewer.imageEl.src;
   let img = cameraViewer.imageEl;
   // Add image to canvas, and create blob
   let canvas = document.createElement('canvas')
@@ -160,7 +161,7 @@ snapshotBtn.addEventListener('click', e => {
 
   canvas.toBlob(function(blob) {
     let link = document.createElement('a');
-    link.download = 'snapshot.png';
+    link.download = `${getDateTimeText()}.png`;
 
     link.href = URL.createObjectURL(blob);
     link.click();
@@ -244,3 +245,13 @@ browser.webRequest.onHeadersReceived.addListener(
   ["blocking", "responseHeaders"]
 )
 /** End of Modify Headers **/
+
+// Helper functions:
+function getDateTimeText() {
+  const date = new Date;
+  let dateTxt = date.toDateString().replaceAll(" ", "-"); //output: "Wed-Jul-28-2023"
+  let timeTxt = `${date.toTimeString().slice(0,6).replaceAll(":","")}-${date.getSeconds()}s`; // "1745-34s"
+  let dateTimeTxt = `${dateTxt}_${timeTxt}`; // "Wed-Jul-28-2023_1745-34s"
+
+  return dateTimeTxt;
+}
