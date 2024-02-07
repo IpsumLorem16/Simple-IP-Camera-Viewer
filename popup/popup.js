@@ -149,22 +149,23 @@ playPauseBtn.addEventListener('click', (event) => {
 //To do: 
 // > add visual effect to show snapshot taken. ie: screen flash + large icon on screen
 snapshotBtn.addEventListener('click', e => {
+  triggerScreenshotEffect();
   let img = cameraViewer.imageEl;
-  // Add image to canvas, and create blob
+  // // Add image to canvas, and create blob
   let canvas = document.createElement('canvas')
   canvas.width = img.naturalWidth;
   canvas.height = img.naturalHeight;
-
+  
   let ctx = canvas.getContext('2d');
   ctx.drawImage(img, 0, 0);
-
+  
   canvas.toBlob(function(blob) {
     let link = document.createElement('a');
     link.download = `${getDateTimeText()}.png`;
-
+    
     link.href = URL.createObjectURL(blob);
     link.click();
-
+    
     URL.revokeObjectURL(link.href);
   }, 'image/png');
 })
@@ -246,6 +247,8 @@ browser.webRequest.onHeadersReceived.addListener(
 /** End of Modify Headers **/
 
 // Helper functions:
+
+// Returns filename safe, current date and time
 function getDateTimeText() {
   const date = new Date;
   let dateTxt = date.toDateString().replaceAll(" ", "-"); //output: "Wed-Jul-28-2023"
@@ -253,4 +256,30 @@ function getDateTimeText() {
   let dateTimeTxt = `${dateTxt}_${timeTxt}`; // "Wed-Jul-28-2023_1745-34s"
 
   return dateTimeTxt;
+}
+
+// Show User screenshot button has been pressed via visual effect.
+let currAnimation = 'fadeOutGrow'
+
+function triggerScreenshotEffect() {
+  const cameraContainerEl = cameraViewer.cameraContainerEl;
+  const snapOverlay = cameraContainerEl.children[2];
+
+  // This is needed to restart the CSS animation, when pressing the button quickly.
+  // (It's dumb but works...)
+  if (currAnimation === 'fadeOutGrow') {
+    snapOverlay.style.animation = 'fadeOutGrow2 500ms';
+    currAnimation = 'fadeOutGrow2';
+  } else if (currAnimation === 'fadeOutGrow2') {
+    snapOverlay.style.animation = 'fadeOutGrow 500ms';
+    currAnimation = 'fadeOutGrow';
+  }
+ 
+  cameraContainerEl.classList.remove('snapshot-flash');
+  cameraContainerEl.classList.add('snapshot-flash');
+  
+  cameraContainerEl.addEventListener('animationend', ()=>{
+    cameraContainerEl.classList.remove('snapshot-flash')
+  }, {once:true})
+
 }
