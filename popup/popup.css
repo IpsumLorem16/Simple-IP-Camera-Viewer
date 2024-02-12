@@ -111,6 +111,14 @@ body {
   padding-right:8px;
   margin-left:0px;
 }
+.camera-controls button:active .icon-wrapper {
+  transform:scale(0.8);
+  transform-origin: center;
+  transition: transform ease-out 0.05s;
+}
+.camera-controls button .icon-wrapper {
+  display: inline-block;
+}
 .camera-controls button svg {
   width:30px;
 }
