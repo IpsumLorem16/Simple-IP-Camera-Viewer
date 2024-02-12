@@ -87,17 +87,38 @@ body {
   bottom: 0;
   width: 100%;
   pointer-events: none;
+  display: flex;
+  padding: 10px;
+  padding-top:20px;
+  justify-content: right;
+  background: rgb(0,0,0);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.63) 0%, rgba(0,0,0,0.3267506831834296) 74%, rgba(255,255,255,0) 100%)
 }
 
 .camera-controls button {
   pointer-events: all;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: rgba(213, 213, 213, 0.7);
 }
-
+.camera-controls button:hover {
+  color: rgba(233, 233, 233, 0.9);
+}
+.camera-controls button:active {
+  border:none;
+  padding-left:8px;
+  padding-right:8px;
+  margin-left:0px;
+}
 .camera-controls button svg {
-  max-width:25px;
+  width:30px;
 }
 
 /* pause/play button */
+.camera-controls #playPauseBtn {
+  margin-right: auto;
+}
 .camera-controls #playPauseBtn span {
   pointer-events: none;
 }
@@ -115,11 +136,14 @@ body {
 .camera-controls #playPauseBtn[data-state="play"] .pause-icon {
   display: none;
 }
+/* Snapshot button */
+.camera-controls #snapshotBtn {
+  margin-right: 10px;
+}
 /* Fullscreen button */
 .camera-controls #fullscreenBtn span {
   pointer-events: none;
 }
-
 /* when not in fullscreen */
 .camera-container:not(:fullscreen) #fullscreenBtn .go-fullscreen-icon {
   display:default;
