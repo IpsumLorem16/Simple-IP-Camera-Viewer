@@ -167,7 +167,8 @@ body {
   display:default;
 }
 
-/* Camera overlay/animation */
+/* Overlays */
+/* Snapshot overlay */
 .camera-container.snapshot-flash {
   /* animation: flash 0.5s; */
   z-index:inherit;
@@ -197,6 +198,26 @@ body {
   max-height:90%;
   color: white;
   opacity:20%;
+}
+/* Connection Error overlay*/
+.camera-container .con-err-overlay {
+  display: flex;
+  position: absolute;
+  top:0;
+  right:0;
+  align-items: center;
+  color:white;
+  background:#0d0000a8;
+  padding: 5px 10px;
+  /* pointer-events: none; */
+  z-index: 2;
+}
+.camera-container .con-err-overlay .overlay-icon {
+  margin-right: 3px;
+}
+.camera-container .con-err-overlay svg {
+  width: 40px;
+  color:rgb(255, 0, 0);
 }
 /** Camera Viewer end **/
 
