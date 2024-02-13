@@ -200,8 +200,14 @@ body {
   opacity:20%;
 }
 /* Connection Error overlay*/
+.camera-container[data-connection-err="true"] .con-err-overlay {
+  display:flex;
+}
+.camera-container[data-connection-err="false"] .con-err-overlay {
+  display:none;
+}
 .camera-container .con-err-overlay {
-  display: flex;
+  display: none;
   position: absolute;
   top:0;
   right:0;

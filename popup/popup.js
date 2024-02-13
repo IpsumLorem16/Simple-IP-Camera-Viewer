@@ -33,10 +33,7 @@ const handleUrlFormSubmit = (e) => {
   hideForm();
   const url = encodeURI(urlInput.value);
   urlInput.value = ''; //clear input on page
-  cameraViewer.init(url);
-  console.log(url);
-  
-
+  cameraViewer.init(url);  
 }
 
 urlForm.addEventListener('submit', (e)=> {
@@ -53,7 +50,9 @@ let cameraViewer = {
   cameraContainerEl : document.querySelector('.camera-container'),
   imageEl: document.querySelector('.camera-container').children[0], 
   // newImage: null,
-  __loading:false,
+  _loading:false,
+  _failedImgRequests: 0,
+  _connectionErr: false,
   url : null,
   playing: false,
   isFullscreen: false,
@@ -65,17 +64,25 @@ let cameraViewer = {
       if (this.playing === true) {        
         let newImage = new Image();
         newImage.src = `${this.url}?cacheBuster=${Date.now()}`; //
-        this.__loading = true;
+        this._loading = true;
         
         newImage.onload = () => {
           console.log('onload')
-          if(this.playing === true && this.__loading === true) {
+          if(this.playing === true && this._loading === true) {
+            // this._failedImgRequests = 0;
+            this.connectionErrHandler(isRequestError = false);
             this.imageEl.src = newImage.src;
-            this.__loading = false;
+            this._loading = false;
             window.requestAnimationFrame(updateImage);
             console.log('request Animation frame')
           }
         };
+        newImage.onerror = (e) => {
+          // this._failedImgRequests++;
+          // console.log(`FAILED TO FETCH IMAGE: ${this._failedImgRequests} times`);
+          this.connectionErrHandler(isRequestError = true);
+          window.requestAnimationFrame(updateImage);
+        }
       }
     }
     window.requestAnimationFrame(updateImage)
@@ -111,6 +118,26 @@ let cameraViewer = {
       this.isFullscreen = false;
       fullscreenBtnEl.title = 'Full screen';
     }
+  },
+  connectionErrHandler: function(isRequestError){
+    isRequestError ? this._failedImgRequests++ : this._failedImgRequests = 0;
+    console.log('failed image requests: '+this._failedImgRequests);
+
+    // if no problem, and connection err flag is not set, return
+    if(this._failedImgRequests === 0 && !this._connectionErr) {
+      return;
+      // if no problem, but err flag is not removed
+    } else if (this._failedImgRequests === 0 && this._connectionErr) {
+      //reset & remove connection error
+      this._connectionErr = false;
+      this.cameraContainerEl.setAttribute('data-connection-err', false);
+      //If connection problem
+    } else if (this._failedImgRequests > 3) {
+      // set flag and show connection error
+      this._connectionErr = true;
+      this.cameraContainerEl.setAttribute('data-connection-err', true);
+    } 
+
   },
   init: function(url) {
     this.url = url;
@@ -228,7 +255,6 @@ userMessage.init();
 //    Requires host_permissions in manifest:
 //      "webRequest", "webRequestBlocking", "<all_urls>"
 function setHeader(e) {
-  console.log("header Handler")
   const newHeader = {
     "name" : "Access-Control-Allow-Origin",
     "value": "*"
