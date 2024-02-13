@@ -69,18 +69,15 @@ let cameraViewer = {
         newImage.onload = () => {
           console.log('onload')
           if(this.playing === true && this._loading === true) {
-            // this._failedImgRequests = 0;
-            this.connectionErrHandler(isRequestError = false);
+            this._connectionErrHandler(isRequestError = false);
             this.imageEl.src = newImage.src;
             this._loading = false;
             window.requestAnimationFrame(updateImage);
             console.log('request Animation frame')
           }
         };
-        newImage.onerror = (e) => {
-          // this._failedImgRequests++;
-          // console.log(`FAILED TO FETCH IMAGE: ${this._failedImgRequests} times`);
-          this.connectionErrHandler(isRequestError = true);
+        newImage.onerror = () => {
+          this._connectionErrHandler(isRequestError = true);
           window.requestAnimationFrame(updateImage);
         }
       }
@@ -119,9 +116,9 @@ let cameraViewer = {
       fullscreenBtnEl.title = 'Full screen';
     }
   },
-  connectionErrHandler: function(isRequestError){
+  _connectionErrHandler: function(isRequestError, error){
     isRequestError ? this._failedImgRequests++ : this._failedImgRequests = 0;
-    console.log('failed image requests: '+this._failedImgRequests);
+    // console.log('failed image requests: '+this._failedImgRequests);
 
     // if no problem, and connection err flag is not set, return
     if(this._failedImgRequests === 0 && !this._connectionErr) {
@@ -137,7 +134,6 @@ let cameraViewer = {
       this._connectionErr = true;
       this.cameraContainerEl.setAttribute('data-connection-err', true);
     } 
-
   },
   init: function(url) {
     this.url = url;
