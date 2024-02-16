@@ -20,7 +20,7 @@ View your IP camera in the browser. Views MJPEG, or JPG snapshot. Should work wi
   There is a problem trying to load the image from your camera, check the supplied URL in another tab.
   
 - Requires password to acess  
- you can often add credentials within the url like so: "<pass>:<username>@192.168.1.45/getImage.cgi"
+ you can often add credentials within the url like so: "\<pass\>:\<username\>@192.168.1.45/getImage.cgi"
 
 - Invalid SSL certificate  
   Open the url on a new tab, within the warning click 'advanced' then ignore and continue.
