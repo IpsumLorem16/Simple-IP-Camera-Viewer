@@ -10,6 +10,8 @@ View your IP camera in the browser. Views MJPEG, or JPG snapshot. Should work wi
 - Take and Immedietly download a snapshot using the snapshot button
 - Can open and view on multiple windows
 - Will warn if connection problems
+- Zero ads, no paywall or anykind of tracking. Infact, contains zero third party scripts.
+
 
 ## Troubleshooting
 
