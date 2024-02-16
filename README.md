@@ -23,7 +23,7 @@ View your IP camera in the browser. Views MJPEG, or JPG snapshot. Should work wi
   Open the url on a new tab, within the warning click 'advanced' then ignore and continue.
   if you continue to have issues there is a setting within the broswer that will ignore certificate errors on localhost
 
-- Still cannot view the image
+- Still cannot view the image  
   You may need a cookie, log in to you camera from another tab, then see if you can acess the image url.
 
 
