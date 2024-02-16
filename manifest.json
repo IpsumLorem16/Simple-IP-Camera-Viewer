@@ -3,13 +3,13 @@
     "browser_style": true,
     "default_title": "Camera Viewer",
     "default_icon": {
-      "19": "icons/window19.png",
-      "38": "icons/window38.png"
+      "19": "icons/iconSVG.svg",
+      "38": "icons/iconSVG.svg"
     }
   },
   "icons": {
-    "48": "icons/window.png",
-    "96": "icons/window@2x.png"
+    "48": "icons/iconSVG.svg",
+    "96": "icons/iconSVG.svg"
   },
   "background": {
     "scripts": ["background.js"]
