@@ -11,6 +11,7 @@ View your IP camera in the browser. Views MJPEG, or JPG snapshot. Should work wi
 - Can open and view on multiple windows
 - Will warn if connection problems
 - Zero ads, no paywall or anykind of tracking, contains zero third party scripts.
+- Extremly simple UI, just a few buttons.
 
 
 ## Troubleshooting
