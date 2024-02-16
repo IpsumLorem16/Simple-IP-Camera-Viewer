@@ -1,5 +1,5 @@
 
-# ![IP Camera](./icons/iconSVG.svg) Cam-View__Web-Ext-test 
+# ![IP Camera](./icons/iconSVG.svg) Simple IP camera Viewer
 Test web extension, to develop new features for full version.
 
 To run: go into project folder and type:  
