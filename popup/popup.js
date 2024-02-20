@@ -1,3 +1,8 @@
+// To do: 
+// Hide camera controls after time
+// Test with MJPEG, add mjpeg option.
+// Validate URL input to make sure image is being fetched
+
 // for testing only 
 document.getElementById('url').value = 'https://root:ismart12@192.168.1.45/cgi-bin/currentpic.cgi'
 // userMessage.new('This is Just a test message DO NOT BE ALARMED!', 'warn');
