@@ -81,12 +81,14 @@ body {
 }
 
 /* Camera Controls */
-
+.camera.controls.hidden {
+  display:none;
+}
 .camera-controls {
   position: absolute;
   bottom: 0;
   width: 100%;
-  pointer-events: none;
+  /* pointer-events: none; */
   display: flex;
   padding: 10px;
   padding-top:20px;

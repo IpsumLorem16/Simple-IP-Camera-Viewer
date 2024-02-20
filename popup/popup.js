@@ -1,7 +1,9 @@
 // To do: 
-// Hide camera controls after time
-// Test with MJPEG, add mjpeg option.
-// Validate URL input to make sure image is being fetched
+// Hide camera controls after time [x]
+//  - hide mouse on fulllscreen [ ]
+//  - Animate controls to fade out. [ ]
+// Test with MJPEG, add mjpeg option. [ ]
+// Validate URL input to make sure image is being fetched [ ]
 
 // for testing only 
 document.getElementById('url').value = 'https://root:ismart12@192.168.1.45/cgi-bin/currentpic.cgi'
@@ -201,6 +203,67 @@ fullscreenBtn.addEventListener('click', (e)=>{
   cameraViewer.toggleFullscreen();
 })
 
+// Hide camera controls, when mouse stays still.
+// Also hide cursor if full screen.
+MouseIdleTracker = {
+  timer: null,
+  element: cameraViewer.cameraContainerEl,
+  idleTime: 3000,
+  isIdle: false,
+  isPaused: false,
+
+  onMove: function() {
+    console.log('Mouse moved.');
+    if(this.isIdle) {
+      this.isIdle = false;
+      // Show camera controls
+      showControls();
+    }
+  },
+
+  onIdle: function() {
+    console.log('Mouse idle');
+    this.isIdle = true;
+    // hide camera controls if idle not paused
+    if(!this.isPaused) hideControls();
+  },
+
+  init: function() {
+    // Add event listener for mouse movement
+    this.element.addEventListener('mousemove', () => {
+      clearTimeout(this.timer); // Reset the timer
+      this.onMove(); // Invoke onMove method
+      this.timer = setTimeout(this.onIdle.bind(this), this.idleTime); // Set a new timer
+    });
+    // Add event listeners for camera controls
+    // Pause hiding controls when hovering over them
+    const controlsEl = document.querySelector('.camera-controls');
+    controlsEl.addEventListener('mouseenter', ()=>{
+      this.isPaused = true;
+      console.log('mouseenter' + this.isPaused)
+    });
+    controlsEl.addEventListener('mouseleave', ()=>{
+      this.isPaused = false;
+    })
+
+    // Initial setup to start the timer
+    this.timer = setTimeout(this.onIdle.bind(this), this.idleTime);
+  }
+};
+
+MouseIdleTracker.init();
+
+function showControls() {
+  const element = document.querySelector('.camera-controls');
+  element.classList.remove('hidden');
+
+};
+
+function hideControls(){
+  const element = document.querySelector('.camera-controls');
+  element.classList.add('hidden');
+
+};
 /**End of Camera Controls**/
 
 
