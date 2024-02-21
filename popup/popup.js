@@ -66,20 +66,20 @@ let cameraViewer = {
     this.playing = true;
     // Recursive function
     const updateImage = () => {
-      console.log('updateimage')
+      // console.log('updateimage')
       if (this.playing === true) {        
         let newImage = new Image();
         newImage.src = `${this.url}?cacheBuster=${Date.now()}`; //
         this._loading = true;
         
         newImage.onload = () => {
-          console.log('onload')
+          // console.log('onload')
           if(this.playing === true && this._loading === true) {
             this._connectionErrHandler(isRequestError = false);
             this.imageEl.src = newImage.src;
             this._loading = false;
             window.requestAnimationFrame(updateImage);
-            console.log('request Animation frame')
+            // console.log('request Animation frame')
           }
         };
         newImage.onerror = () => {
@@ -124,7 +124,6 @@ let cameraViewer = {
   },
   _connectionErrHandler: function(isRequestError, error){
     isRequestError ? this._failedImgRequests++ : this._failedImgRequests = 0;
-    // console.log('failed image requests: '+this._failedImgRequests);
 
     // if no problem, and connection err flag is not set, return
     if(this._failedImgRequests === 0 && !this._connectionErr) {
@@ -161,12 +160,10 @@ playPauseBtn.addEventListener('click', (event) => {
   const button = event.target;
   const state = button.getAttribute('data-state');
   if (state === 'pause') {
-    console.log('pause button pressed');
     cameraViewer.pause();
     button.setAttribute('data-state', 'play');
     button.title = 'Play';
   } else if (state === 'play') {
-    console.log('play button pressed');
     cameraViewer.play()
     button.setAttribute('data-state', 'pause');
     button.title = 'Pause';
@@ -212,7 +209,6 @@ MouseIdleTracker = {
   isPaused: false,
 
   onMove: function() {
-    console.log('Mouse moved.');
     if(this.isIdle) {
       this.isIdle = false;
       // Show camera controls
@@ -221,7 +217,6 @@ MouseIdleTracker = {
   },
 
   onIdle: function() {
-    console.log('Mouse idle');
     this.isIdle = true;
     // hide camera controls if idle not paused
     if(!this.isPaused) hideControls();
@@ -239,7 +234,6 @@ MouseIdleTracker = {
     const controlsEl = document.querySelector('.camera-controls');
     controlsEl.addEventListener('mouseenter', ()=>{
       this.isPaused = true;
-      console.log('mouseenter' + this.isPaused)
     });
     controlsEl.addEventListener('mouseleave', ()=>{
       this.isPaused = false;
