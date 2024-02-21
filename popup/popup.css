@@ -80,6 +80,9 @@ body {
   height:100%;
 }
 
+.camera-container.mouse-idle:fullscreen {
+  cursor: none;
+}
 /* Camera Controls */
 .camera.controls.hidden {
   display:none;
