@@ -1,7 +1,7 @@
 // To do: 
 // Hide camera controls after time [x]
 //  - hide mouse on fulllscreen [x]
-//  - Animate controls to fade out. [ ]
+//  - Animate controls to fade out. [x]
 // Test with MJPEG, add mjpeg option. [ ]
 // Validate URL input to make sure image is being fetched [ ]
 
@@ -221,11 +221,9 @@ MouseIdleTracker = {
     if(!this.isPaused) this.hideControls(); //if idle not paused, hide camera controls 
   },
   showControls: function() {
-    // this.camControlsEl.classList.remove('hidden');
     this.camViewerEl.classList.remove('mouse-idle');
   },
   hideControls: function() {
-    // this.camControlsEl.classList.add('hidden');
     this.camViewerEl.classList.add('mouse-idle');
   },
   init: function() {
