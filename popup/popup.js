@@ -200,43 +200,45 @@ fullscreenBtn.addEventListener('click', (e)=>{
 })
 
 // Hide camera controls, when mouse stays still.
-// Also hide cursor if full screen.
 MouseIdleTracker = {
   timer: null,
-  element: cameraViewer.cameraContainerEl,
+  camViewerEl: null,
+  camControlsEl: null,
   idleTime: 2500,
   isIdle: false,
   isPaused: false,
-
+  
   onMove: function() {
+    clearTimeout(this.timer); // Reset the timer <<-Move into onMove()
     if(this.isIdle) {
       this.isIdle = false;
-      showControls();
+      this.showControls();
     }
+    this.timer = setTimeout(this.onIdle.bind(this), this.idleTime); // Set a new timer <<-Move into onMove()
   },
-
   onIdle: function() {
     this.isIdle = true;
-    // hide camera controls if idle not paused
-    if(!this.isPaused) hideControls();
+    if(!this.isPaused) this.hideControls(); //if idle not paused, hide camera controls 
   },
-
+  showControls: function() {
+    this.camControlsEl.classList.remove('hidden');
+    this.camViewerEl.classList.remove('mouse-idle');
+  },
+  hideControls: function() {
+    this.camControlsEl.classList.add('hidden');
+    this.camViewerEl.classList.add('mouse-idle');
+  },
   init: function() {
+    this.camViewerEl = cameraViewer.cameraContainerEl;
+    this.camControlsEl = document.querySelector('.camera-controls');
+    
     // Add event listener for mouse movement
-    this.element.addEventListener('mousemove', () => {
-      clearTimeout(this.timer); // Reset the timer
-      this.onMove(); // Invoke onMove method
-      this.timer = setTimeout(this.onIdle.bind(this), this.idleTime); // Set a new timer
-    });
+    this.camViewerEl.addEventListener('mousemove', () => { this.onMove() });
+
     // Add event listeners for camera controls
-    // Pause hiding controls when hovering over them
-    const controlsEl = document.querySelector('.camera-controls');
-    controlsEl.addEventListener('mouseenter', ()=>{
-      this.isPaused = true;
-    });
-    controlsEl.addEventListener('mouseleave', ()=>{
-      this.isPaused = false;
-    })
+    // to pause hiding controls when mouse over them.
+    this.camControlsEl.addEventListener('mouseenter', () => { this.isPaused = true });
+    this.camControlsEl.addEventListener('mouseleave', () => { this.isPaused = false });
 
     // Initial setup to start the timer
     this.timer = setTimeout(this.onIdle.bind(this), this.idleTime);
@@ -245,18 +247,6 @@ MouseIdleTracker = {
 
 MouseIdleTracker.init();
 
-function showControls() {
-  const element = document.querySelector('.camera-controls');
-  element.classList.remove('hidden');
-  cameraViewer.cameraContainerEl.classList.remove('mouse-idle');
-};
-
-function hideControls(){
-  const element = document.querySelector('.camera-controls');
-  element.classList.add('hidden');
-  cameraViewer.cameraContainerEl.classList.add('mouse-idle');
-
-};
 /**End of Camera Controls**/
 
 
