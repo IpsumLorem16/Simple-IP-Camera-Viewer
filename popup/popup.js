@@ -52,7 +52,6 @@ urlForm.addEventListener('submit', (e)=> {
 
 
 /** Camera viewer **/
-// To Do: Add connection error handling
 let cameraViewer = {
   cameraContainerEl : document.querySelector('.camera-container'),
   imageEl: document.querySelector('.camera-container').children[0], 
