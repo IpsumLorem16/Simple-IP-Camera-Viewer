@@ -82,12 +82,19 @@ body {
 
 .camera-container.mouse-idle:fullscreen {
   cursor: none;
+  transition: cursor 0s 0.3s linear;
 }
 /* Camera Controls */
-.camera.controls.hidden {
-  display:none;
+.camera-container.mouse-idle .camera-controls {
+  opacity: 0;
+  transition: opacity 0.2s 0.1s ease-in;
+}
+.camera-container.mouse-idle .camera-controls button {
+  opacity: 0;
+  transition: opacity 0.2s ease-in;
 }
 .camera-controls {
+  opacity: 1;
   position: absolute;
   bottom: 0;
   width: 100%;
