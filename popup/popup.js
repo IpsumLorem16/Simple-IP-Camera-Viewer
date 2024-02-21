@@ -204,7 +204,7 @@ fullscreenBtn.addEventListener('click', (e)=>{
 MouseIdleTracker = {
   timer: null,
   element: cameraViewer.cameraContainerEl,
-  idleTime: 3000,
+  idleTime: 2500,
   isIdle: false,
   isPaused: false,
 
