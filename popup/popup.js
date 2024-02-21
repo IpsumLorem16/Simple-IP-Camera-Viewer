@@ -209,12 +209,12 @@ MouseIdleTracker = {
   isPaused: false,
   
   onMove: function() {
-    clearTimeout(this.timer); // Reset the timer <<-Move into onMove()
+    clearTimeout(this.timer); // Reset the timer 
     if(this.isIdle) {
       this.isIdle = false;
       this.showControls();
     }
-    this.timer = setTimeout(this.onIdle.bind(this), this.idleTime); // Set a new timer <<-Move into onMove()
+    this.timer = setTimeout(this.onIdle.bind(this), this.idleTime); // Set a new timer 
   },
   onIdle: function() {
     this.isIdle = true;
