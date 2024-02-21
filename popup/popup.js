@@ -1,7 +1,5 @@
 // To do: 
-// Hide camera controls after time [x]
-//  - hide mouse on fulllscreen [x]
-//  - Animate controls to fade out. [x]
+// Display viewer is paused, either with popup(like youtube), or by not hiding controls (or both) 
 // Test with MJPEG, add mjpeg option. [ ]
 // Validate URL input to make sure image is being fetched [ ]
 
