@@ -1,7 +1,8 @@
 // To do: 
-// Display viewer is paused, either with popup(like youtube), or by not hiding controls (or both) 
+// Display viewer is paused, either with popup(like youtube), or by not hiding controls (or both) [ ] 
 // Test with MJPEG, add mjpeg option. [ ]
 // Validate URL input to make sure image is being fetched [ ]
+// Remember last url/urls entered.
 
 // for testing only 
 document.getElementById('url').value = 'https://root:ismart12@192.168.1.45/cgi-bin/currentpic.cgi'
