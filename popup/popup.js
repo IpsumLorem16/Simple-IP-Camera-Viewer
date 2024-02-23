@@ -3,6 +3,7 @@
 // Test with MJPEG, add mjpeg option. [ ]
 // Validate URL input to make sure image is being fetched [ ]
 // Remember last url/urls entered.
+// Add fill window buton: fit camera viewer to window/open in window without url entry
 
 // for testing only 
 document.getElementById('url').value = 'https://root:ismart12@192.168.1.45/cgi-bin/currentpic.cgi'
