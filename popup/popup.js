@@ -4,6 +4,7 @@
 // Validate URL input to make sure image is being fetched [ ]
 // Remember last url/urls entered.
 // Add fill window buton: fit camera viewer to window/open in window without url entry
+// Add option to remove cachebuster in cam-viewer, as it may break image fetching.
 
 // for testing only 
 document.getElementById('url').value = 'https://root:ismart12@192.168.1.45/cgi-bin/currentpic.cgi'
@@ -54,41 +55,39 @@ urlForm.addEventListener('submit', (e)=> {
 /** Camera viewer **/
 let cameraViewer = {
   cameraContainerEl : document.querySelector('.camera-container'),
-  imageEl: document.querySelector('.camera-container').children[0], 
-  // newImage: null,
+  imageEl: null, 
+  _newImage: null,
   _loading:false,
   _failedImgRequests: 0,
   _connectionErr: false,
   url : null,
   playing: false,
   isFullscreen: false,
-  play: function () {
+  play: function() {
     this.playing = true;
-    // Recursive function
-    const updateImage = () => {
-      // console.log('updateimage')
-      if (this.playing === true) {        
-        let newImage = new Image();
-        newImage.src = `${this.url}?cacheBuster=${Date.now()}`; //
-        this._loading = true;
-        
-        newImage.onload = () => {
-          // console.log('onload')
-          if(this.playing === true && this._loading === true) {
-            this._connectionErrHandler(isRequestError = false);
-            this.imageEl.src = newImage.src;
-            this._loading = false;
-            window.requestAnimationFrame(updateImage);
-            // console.log('request Animation frame')
-          }
-        };
-        newImage.onerror = () => {
-          this._connectionErrHandler(isRequestError = true);
-          window.requestAnimationFrame(updateImage);
-        }
-      }
+    this._updateImage();
+  },
+  _updateImage: function() {
+    if (this.playing === true) {        
+      this._newImage = new Image();
+      this._newImage.src = `${this.url}?cacheBuster=${Date.now()}`;
+      this._loading = true;
+
+      this._newImage.onload = () => this._handleImgLoad();
+      this._newImage.onerror = () => this._handleImgError();
     }
-    window.requestAnimationFrame(updateImage)
+  },
+  _handleImgLoad: function() {
+    if(this.playing === true && this._loading === true) {
+      this._connectionErrHandler(isRequestError = false);
+      this.imageEl.src = this._newImage.src;
+      this._loading = false;
+      window.requestAnimationFrame(this._updateImage.bind(this));
+    }
+  },
+  _handleImgError: function() {
+    this._connectionErrHandler(isRequestError = true);
+    window.requestAnimationFrame(this._updateImage.bind(this));
   },
   pause: function() {
     this.playing = false;
@@ -142,6 +141,8 @@ let cameraViewer = {
   },
   init: function(url) {
     this.url = url;
+    this.cameraContainerEl = document.querySelector('.camera-container'); //cache element
+    this.imageEl = document.querySelector('.camera-container').children[0]; //cache element
     this.play();
     this.showPlayer();
     this.cameraContainerEl.addEventListener("fullscreenchange", this._onFullscreenChange.bind(this));
