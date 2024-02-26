@@ -114,6 +114,11 @@ body {
   cursor: pointer;
   color: rgba(213, 213, 213, 0.7);
 }
+
+.camera-controls button:focus-visible {
+outline: 2px solid rgb(73, 188, 255);
+}
+
 .camera-controls button:hover {
   color: rgba(233, 233, 233, 0.9);
 }
