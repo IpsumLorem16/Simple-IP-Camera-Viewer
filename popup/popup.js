@@ -1,5 +1,5 @@
 // To do: 
-// Display viewer is paused, either with popup(like youtube), or by not hiding controls (or both) [ ] 
+// Display viewer is paused, either with popup(like youtube), or by not hiding controls (or both) [x] 
 // Test with MJPEG, add mjpeg option. [ ]
 // Validate URL input to make sure image is being fetched [ ]
 // Remember last url/urls entered.
@@ -67,12 +67,16 @@ let cameraViewer = {
     this.playing = true;
     this._updateImage();
   },
+  pause: function() {
+    this.playing = false;
+    this.loading = false;
+  },
   _updateImage: function() {
     if (this.playing === true) {        
       this._newImage = new Image();
       this._newImage.src = `${this.url}?cacheBuster=${Date.now()}`;
       this._loading = true;
-
+      
       this._newImage.onload = () => this._handleImgLoad();
       this._newImage.onerror = () => this._handleImgError();
     }
@@ -88,10 +92,6 @@ let cameraViewer = {
   _handleImgError: function() {
     this._connectionErrHandler(isRequestError = true);
     window.requestAnimationFrame(this._updateImage.bind(this));
-  },
-  pause: function() {
-    this.playing = false;
-    this.loading = false;
   },
   showPlayer: function() {
     this.cameraContainerEl.classList.remove('hide');
@@ -169,6 +169,7 @@ playPauseBtn.addEventListener('click', (event) => {
     button.setAttribute('data-state', 'pause');
     button.title = 'Pause';
   }
+  MouseIdleTracker.showControls();
 })
 
 // Take snapshot
@@ -219,7 +220,7 @@ MouseIdleTracker = {
   },
   onIdle: function() {
     this.isIdle = true;
-    if(!this.isPaused) this.hideControls(); //if idle not paused, hide camera controls 
+    if(!this.isPaused && cameraViewer.playing === true) this.hideControls(); //if idle not paused, hide camera controls 
   },
   showControls: function() {
     this.camViewerEl.classList.remove('mouse-idle');
