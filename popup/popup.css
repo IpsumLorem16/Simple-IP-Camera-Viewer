@@ -165,6 +165,9 @@ outline: 2px solid rgb(73, 188, 255);
 .camera-controls #snapshotBtn {
   margin-right: 10px;
 }
+.camera-controls #optionsBtn {
+  margin-right:10px;
+}
 /* Fullscreen button */
 .camera-controls #fullscreenBtn span {
   pointer-events: none;
@@ -242,6 +245,77 @@ outline: 2px solid rgb(73, 188, 255);
   width: 40px;
   color:rgb(255, 0, 0);
 }
+/* Options menu overlay */
+.camera-container .options-overlay {
+  position: absolute;
+  width: 250px;
+  height: 137px;
+  background: rgb(28,28,28,.9);
+  bottom: 50px;
+  box-sizing: border-box;
+  right: 10px;
+  padding:8px 0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.camera-container .options-overlay .menuitem {
+  display: flex;
+  align-items: center;
+  color: #eee;
+  cursor: pointer;
+  height:40px;
+}
+.camera-container .options-overlay .menuitem * {
+  pointer-events: none;
+  user-select: none;
+}
+.camera-container .options-overlay .menuitem:hover {
+  background: rgba(255, 255, 255, 0.11);
+}
+.camera-container .options-overlay .menuitem-icon {
+  padding: 0 10px;
+}
+.camera-container .options-overlay .menuitem-label {
+  padding-right:15px;
+}
+.camera-container .options-overlay .menuitem-icon svg {
+  display: block;
+  width: 24px;
+  height:24px;
+  color:#eee;
+}
+.camera-container .options-overlay .menuitem-checkbox {
+  height: 14px;
+  width: 36px;
+  background: rgb(255,255,255,.3);
+  border-radius: 14px;
+  margin-left: auto;
+  margin-right: 15px;
+  transition: all .08s cubic-bezier(.4,0,1,1);
+  transform: scale(1);
+}
+
+.camera-container .options-overlay .menuitem-checkbox::after {
+  content: '';
+  display:block;
+  right:0;
+  width:21px;
+  height:21px;
+  margin-top: -3px;
+  background: #bdbdbd;
+  box-shadow: 0 1px 5px 0 rgb(0 0 0 / 60%);
+  border-radius: 50%;
+  transition: all .08s cubic-bezier(.4,0,1,1);
+}
+/*Menuitem Checked */
+.camera-container .options-overlay .menuitem[aria-checked=true] .menuitem-checkbox  {
+  background: #f00;
+}
+.camera-container .options-overlay .menuitem[aria-checked=true] .menuitem-checkbox::after  {
+  background: #fff;
+  transform: translateX(16px);
+}
+
 /** Camera Viewer end **/
 
 /* Toast */

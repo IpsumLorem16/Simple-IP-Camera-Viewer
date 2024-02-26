@@ -201,6 +201,37 @@ fullscreenBtn.addEventListener('click', (e)=>{
   cameraViewer.toggleFullscreen();
 })
 
+// Options menu
+optionsMenu = {
+  menuEl: null,
+  handleClick: function(e){
+    const target = e.target;
+    let option = target.getAttribute('data-option');
+
+    if (option !== null) {
+      (target.getAttribute('role') === 'menuitemcheckbox') && this.toggleSwitch(target);
+      console.log(option)
+    }
+  },
+  toggleSwitch: function(target){
+    let isChecked = target.getAttribute('aria-checked');
+    let newAtrribute = isChecked == 'true' ? 'false' : 'true';
+    target.setAttribute('aria-checked', newAtrribute);
+  },
+  handleMJPEG: function(){
+
+  },
+  handleCachebuster: function(){
+
+  },
+  init: function(){
+    this.menuEl = document.querySelector('.options-menu');
+    this.menuEl.addEventListener('click', this.handleClick.bind(this));
+  }
+}
+optionsMenu.init();
+
+
 // Hide camera controls, when mouse stays still.
 MouseIdleTracker = {
   timer: null,
