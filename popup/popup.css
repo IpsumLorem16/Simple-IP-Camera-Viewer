@@ -247,6 +247,7 @@ outline: 2px solid rgb(73, 188, 255);
 }
 /* Options menu overlay */
 .camera-container .options-overlay {
+  display: none;
   position: absolute;
   width: 250px;
   height: 137px;
@@ -257,6 +258,13 @@ outline: 2px solid rgb(73, 188, 255);
   padding:8px 0;
   border-radius: 6px;
   overflow: hidden;
+}
+.camera-container .options-overlay.expanded {
+  display: block;
+  animation: fadeIn 0.16s ease;
+}
+.camera-container .options-overlay.fadeOut {
+  animation: fadeOut 0.25s ease;
 }
 .camera-container .options-overlay .menuitem {
   display: flex;
@@ -392,6 +400,14 @@ outline: 2px solid rgb(73, 188, 255);
   }
   to {
     opacity:100;
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity:100;
+  }
+  to {
+    opacity:0;
   }
 }
 

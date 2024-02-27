@@ -201,9 +201,11 @@ fullscreenBtn.addEventListener('click', (e)=>{
   cameraViewer.toggleFullscreen();
 })
 
-// Options menu
+// Options button + menu
+
 optionsMenu = {
   menuEl: null,
+  optionsBtn: null,
   handleClick: function(e){
     const target = e.target;
     let option = target.getAttribute('data-option');
@@ -224,9 +226,31 @@ optionsMenu = {
   handleCachebuster: function(){
 
   },
+  show: function() {
+    this.optionsBtn.setAttribute('aria-expanded', 'true');
+    this.menuWrapper.classList.remove('fadeOut');
+    this.menuWrapper.classList.add('expanded');
+  },
+  hide: function()  {
+    this.optionsBtn.setAttribute('aria-expanded', 'false');
+    this.menuWrapper.classList.add('fadeOut');
+    
+    this.menuWrapper.addEventListener('animationend', (e)=> {
+      if (this.optionsBtn.getAttribute('aria-expanded') === 'false') {
+        this.menuWrapper.classList.remove('expanded');
+      }
+    }, {once:true})
+  },
+  toggleVisible: function() {
+    const isExpanded = this.optionsBtn.getAttribute('aria-expanded') === 'true' ? true : false;
+    isExpanded ? this.hide() : this.show();
+  },
   init: function(){
     this.menuEl = document.querySelector('.options-menu');
-    this.menuEl.addEventListener('click', this.handleClick.bind(this));
+    this.menuWrapper = document.getElementById('optionsOverlay');
+    this.optionsBtn = document.getElementById('optionsBtn');
+    this.menuEl.addEventListener('click', (e) => this.handleClick(e));
+    this.optionsBtn.addEventListener('click', () => this.toggleVisible());
   }
 }
 optionsMenu.init();
