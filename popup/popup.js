@@ -206,6 +206,7 @@ fullscreenBtn.addEventListener('click', (e)=>{
 optionsMenu = {
   menuEl: null,
   optionsBtn: null,
+  isExpanded: false,
   handleClick: function(e){
     const target = e.target;
     let option = target.getAttribute('data-option');
@@ -230,9 +231,11 @@ optionsMenu = {
     this.optionsBtn.setAttribute('aria-expanded', 'true');
     this.menuWrapper.classList.remove('fadeOut');
     this.menuWrapper.classList.add('expanded');
+    this.isExpanded = true;
   },
   hide: function()  {
     this.optionsBtn.setAttribute('aria-expanded', 'false');
+    this.isExpanded = false;
     this.menuWrapper.classList.add('fadeOut');
     
     this.menuWrapper.addEventListener('animationend', (e)=> {
@@ -275,7 +278,11 @@ MouseIdleTracker = {
   },
   onIdle: function() {
     this.isIdle = true;
-    if(!this.isPaused && cameraViewer.playing === true) this.hideControls(); //if idle not paused, hide camera controls 
+    if (
+      !this.isPaused 
+      && cameraViewer.playing 
+      && !optionsMenu.isExpanded
+    ) { this.hideControls() };  
   },
   showControls: function() {
     this.camViewerEl.classList.remove('mouse-idle');
