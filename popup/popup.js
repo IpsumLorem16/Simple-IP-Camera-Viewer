@@ -12,6 +12,70 @@ document.getElementById('url').value = 'https://root:ismart12@192.168.1.45/cgi-b
 
 // for testing only end
 
+/* User Settings */
+
+const userSettings = {
+  _mjpeg: false,  //default value
+  _cachebuster: true, //default value
+  _url: null,
+
+  set mjpeg(value) {
+    this._mjpeg = value;
+    //do stuff
+  },
+  get mjpeg() {
+    return this._mjpeg;
+  },
+  set cachebuster(value) {
+    this._cachebuster = value;
+    //do stuff
+  },
+  get cachebuster() {
+    return this._cachebuster;
+  },
+  set url(newUrl) {
+    this._url = newUrl;
+    //do stuff
+  },
+  get url() {
+    return this._url;
+  },
+
+  save: function(data) {
+    const userSettings = {
+      mjpeg : data?.mjpeg || this.mjpeg,
+      cachebuster : data?.cachebuster || this.cachebuster,
+      url : data?.url || this.url,
+    }
+    const onSave = () =>{console.log("ok")}
+    const onError = (e)=>{console.log(e)};
+
+    browser.storage.local.set({userSettings}).then(onSave, onError)
+  },
+  getSavedData: function() {
+    const onGot = (data) =>  {
+      console.log(data);
+      return data;
+    };
+    const onError = (error)=>{console.log(e)};
+
+    browser.storage.local.get("userSettings").then(onGot, onError)
+  },
+  clearSavedData: function() {
+    //delete saved user settings from local storage.
+    const onRemoved = ()=>{console.log('ok')}
+    const onError = (e)=>{console.log(e)}
+
+    let removeData = browser.storage.local.remove("userSettings");
+    removeData.then(onRemoved, onError); 
+  },
+
+  init: function() {
+    //get saved data, and set all values
+  } 
+} 
+// userSettings.init()
+
 /** Url input form **/
 
 const urlForm = document.getElementById('urlForm');
