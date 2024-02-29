@@ -2,79 +2,44 @@
 // Display viewer is paused, either with popup(like youtube), or by not hiding controls (or both) [x] 
 // Test with MJPEG, add mjpeg option. [ ]
 // Validate URL input to make sure image is being fetched [ ]
-// Remember last url/urls entered.
+// Remember last url/urls entered. [x]
 // Add fill window buton: fit camera viewer to window/open in window without url entry
 // Add option to remove cachebuster in cam-viewer, as it may break image fetching.
 
 // for testing only 
-document.getElementById('url').value = 'https://root:ismart12@192.168.1.45/cgi-bin/currentpic.cgi'
 // userMessage.new('This is Just a test message DO NOT BE ALARMED!', 'warn');
 
 // for testing only end
 
-/* User Settings */
 
-const userSettings = {
-  _mjpeg: false,  //default value
-  _cachebuster: true, //default value
-  _url: null,
+// Save last url entered, retrieve and populate url input on re-load. 
+const UserUrl = {
+  inputEl: document.getElementById('url'),
+  lastUsedUrl: '',
+  getLastUrl: function(){
+    return browser.storage.local.get("userUrl")
+  },
+  save: function(url){
+    const userUrl = { value:url || '' }
+    const onError = (e)=>{console.log(e.message)};
 
-  set mjpeg(value) {
-    this._mjpeg = value;
-    //do stuff
+    browser.storage.local.set({userUrl}).catch(onError);
   },
-  get mjpeg() {
-    return this._mjpeg;
-  },
-  set cachebuster(value) {
-    this._cachebuster = value;
-    //do stuff
-  },
-  get cachebuster() {
-    return this._cachebuster;
-  },
-  set url(newUrl) {
-    this._url = newUrl;
-    //do stuff
-  },
-  get url() {
-    return this._url;
-  },
-
-  save: function(data) {
-    const userSettings = {
-      mjpeg : data?.mjpeg || this.mjpeg,
-      cachebuster : data?.cachebuster || this.cachebuster,
-      url : data?.url || this.url,
+  async init(){
+    try {
+      let savedData = await this.getLastUrl();
+      this.lastUsedUrl = savedData?.userUrl?.value || '';
+    } catch (error) {
+      console.log(error)
+      this.lastUsedUrl = '';
+    } finally {
+      if (this.lastUsedUrl?.length > 0) {
+        this.inputEl.value = this.lastUsedUrl;
+      }
     }
-    const onSave = () =>{console.log("ok")}
-    const onError = (e)=>{console.log(e)};
-
-    browser.storage.local.set({userSettings}).then(onSave, onError)
-  },
-  getSavedData: function() {
-    const onGot = (data) =>  {
-      console.log(data);
-      return data;
-    };
-    const onError = (error)=>{console.log(e)};
-
-    browser.storage.local.get("userSettings").then(onGot, onError)
-  },
-  clearSavedData: function() {
-    //delete saved user settings from local storage.
-    const onRemoved = ()=>{console.log('ok')}
-    const onError = (e)=>{console.log(e)}
-
-    let removeData = browser.storage.local.remove("userSettings");
-    removeData.then(onRemoved, onError); 
-  },
-
-  init: function() {
-    //get saved data, and set all values
-  } 
-} 
-// userSettings.init()
+  }
+}
+UserUrl.init();
 
 /** Url input form **/
 
@@ -106,6 +71,7 @@ const handleUrlFormSubmit = (e) => {
   const url = encodeURI(urlInput.value);
   urlInput.value = ''; //clear input on page
   cameraViewer.init(url);  
+  UserUrl.save(url);
 }
 
 urlForm.addEventListener('submit', (e)=> {
