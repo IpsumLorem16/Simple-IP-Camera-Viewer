@@ -103,10 +103,11 @@ let cameraViewer = {
   },
   _updateImage: function() {
     if (this.playing === true) {     
+      let urlContainsParams = this.url.includes('?');
+      let cachebuster = `${(urlContainsParams ? '&' : '?')}cacheBuster=${Date.now()}`;
       this._newImage = new Image();
-      this._newImage.src = `${this.url}?cacheBuster=${Date.now()}`;
-      // let cacheBuster = (optionsMenu.cachebusterEnabled) ? ('?' + Date.now()) : '';
-      // this._newImage.src = `${this.url}${cacheBuster}`;
+      // this._newImage.src = `${this.url}?cacheBuster=${Date.now()}`;
+      this._newImage.src = `${this.url}${cachebuster}`;
       this._loading = true;
       
       this._newImage.onload = () => this._handleImgLoad();
