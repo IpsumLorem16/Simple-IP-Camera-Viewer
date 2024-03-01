@@ -234,7 +234,7 @@ fullscreenBtn.addEventListener('click', (e)=>{
 })
 
 // Options button + menu
-
+// Currently Disabled. 
 optionsMenu = {
   menuEl: null,
   optionsBtn: null,
@@ -298,7 +298,7 @@ optionsMenu = {
     this.optionsBtn.addEventListener('click', () => this.toggleVisible());
   }
 }
-optionsMenu.init();
+// optionsMenu.init();
 
 
 // Hide camera controls, when mouse stays still.
