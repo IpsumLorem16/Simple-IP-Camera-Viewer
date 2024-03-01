@@ -250,7 +250,7 @@ outline: 2px solid rgb(73, 188, 255);
   display: none;
   position: absolute;
   width: 250px;
-  height: 137px;
+  /* height: 137px; */
   background: rgb(28,28,28,.9);
   bottom: 56px;
   box-sizing: border-box;
@@ -317,7 +317,7 @@ outline: 2px solid rgb(73, 188, 255);
 }
 /*Menuitem Checked */
 .camera-container .options-overlay .menuitem[aria-checked=true] .menuitem-checkbox  {
-  background: #f00;
+  background: #00b7ff;
 }
 .camera-container .options-overlay .menuitem[aria-checked=true] .menuitem-checkbox::after  {
   background: #fff;

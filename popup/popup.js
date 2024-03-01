@@ -4,7 +4,7 @@
 // Validate URL input to make sure image is being fetched [ ]
 // Remember last url/urls entered. [x]
 // Add fill window buton: fit camera viewer to window/open in window without url entry
-// Add option to remove cachebuster in cam-viewer, as it may break image fetching.
+// Add option to remove cachebuster in cam-viewer, as it may break image fetching.[x] (dumb, breaks imagefetching)
 
 // for testing only 
 // userMessage.new('This is Just a test message DO NOT BE ALARMED!', 'warn');
@@ -102,9 +102,11 @@ let cameraViewer = {
     this.loading = false;
   },
   _updateImage: function() {
-    if (this.playing === true) {        
+    if (this.playing === true) {     
       this._newImage = new Image();
       this._newImage.src = `${this.url}?cacheBuster=${Date.now()}`;
+      // let cacheBuster = (optionsMenu.cachebusterEnabled) ? ('?' + Date.now()) : '';
+      // this._newImage.src = `${this.url}${cacheBuster}`;
       this._loading = true;
       
       this._newImage.onload = () => this._handleImgLoad();
@@ -237,25 +239,35 @@ optionsMenu = {
   menuEl: null,
   optionsBtn: null,
   isExpanded: false,
+  cachebusterEnabled: true, //true is default setting
   handleClick: function(e){
     const target = e.target;
     let option = target.getAttribute('data-option');
 
     if (option !== null) {
       (target.getAttribute('role') === 'menuitemcheckbox') && this.toggleSwitch(target);
-      console.log(option)
     }
   },
   toggleSwitch: function(target){
+    let option = target.getAttribute('data-option');
     let isChecked = target.getAttribute('aria-checked');
-    let newAtrribute = isChecked == 'true' ? 'false' : 'true';
+    let newAtrribute = isChecked == 'true' ? false : true;
     target.setAttribute('aria-checked', newAtrribute);
-  },
-  handleMJPEG: function(){
 
+    // handle the relevent option switched
+    switch(option){
+      case 'cachebuster':
+        this.handleCachebuster(newAtrribute);
+      case 'mjpeg':
+        this.handleMJPEG(newAtrribute);
+    }
   },
-  handleCachebuster: function(){
-
+  handleMJPEG: function(newSetting){
+    console.log('handleMJPEG'+newSetting);
+  },
+  handleCachebuster: function(newSetting){
+    console.log('handleCachebuster'+newSetting);
+    this.cachebusterEnabled = newSetting;
   },
   show: function() {
     this.optionsBtn.setAttribute('aria-expanded', 'true');
