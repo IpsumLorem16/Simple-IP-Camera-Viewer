@@ -1,7 +1,7 @@
 // To do: 
 // Display viewer is paused, either with popup(like youtube), or by not hiding controls (or both) [x] 
 // Test with MJPEG, add mjpeg option. [ ]
-// Validate URL input to make sure image is being fetched [ ]
+// Validate URL input to make sure image is being fetched [x]
 // Remember last url/urls entered. [x]
 // Add fill window buton: fit camera viewer to window/open in window without url entry
 // Add option to remove cachebuster in cam-viewer, as it may break image fetching.[x] (dumb, breaks imagefetching)
@@ -46,10 +46,26 @@ UserUrl.init();
 const urlForm = document.getElementById('urlForm');
 
 
-const validateUrlForm = (input) => {
-//validate url, and make a test connection. 
-//show toast, if there is a problem like 404, or unsecure connection error(and how to fix it)
-}
+const checkFileType = (fileUrl) => {
+  console.log(fileUrl)
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    let loadTimeout;
+    img.onload = function() {
+      clearTimeout(loadTimeout);
+      resolve(true); // Image loaded successfully, it's an image file
+    };
+    img.onerror = function(e) {
+      clearTimeout(loadTimeout);
+      reject({isImage:false, message: 'failed'}); // Error loading the image, it's not an image file
+    };
+    loadTimeout = setTimeout(()=>{
+      console.log('timedout')
+      reject({isImage:false, message:'Took too long to load'}); //Took too long to resolve
+    },20000) //20s
+    img.src = fileUrl;
+  })
+} 
 
 const hideForm = () => {
   urlForm.classList.add('hide');
@@ -67,16 +83,27 @@ const showForm = () => {
 
 const handleUrlFormSubmit = (e) => {
   const urlInput = e.target[0];
-  hideForm();
   const url = encodeURI(urlInput.value);
-  urlInput.value = ''; //clear input on page
-  cameraViewer.init(url);  
-  UserUrl.save(url);
+  // check file type
+  if (url) {
+    checkFileType(url)
+      .then(isImage => { //url is an image that be be loaded
+        console.log('Is image', isImage);
+        userMessage.isVisible && userMessage.hideMessage();
+        hideForm();
+        urlInput.value = ''; //clear input on page
+        cameraViewer.init(url);  
+        UserUrl.save(url);
+      })
+      .catch(error => { //error getting image from url
+        console.error('Error', error.message)
+        userMessage.new('Check URL in another tab, it needs to be an image');
+      })    
+  }
 }
 
 urlForm.addEventListener('submit', (e)=> {
   e.preventDefault();
-  // validateUrlForm();
   handleUrlFormSubmit(e);
 })
 /** End of Url input form **/
