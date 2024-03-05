@@ -1,10 +1,11 @@
 // To do: 
 // Display viewer is paused, either with popup(like youtube), or by not hiding controls (or both) [x] 
-// Test with MJPEG, add mjpeg option. [ ]
+// Test with MJPEG, add mjpeg option. [-]
 // Validate URL input to make sure image is being fetched [x]
 // Remember last url/urls entered. [x]
 // Add fill window buton: fit camera viewer to window/open in window without url entry
 // Add option to remove cachebuster in cam-viewer, as it may break image fetching.[x] (dumb, breaks imagefetching)
+
 
 // for testing only 
 // userMessage.new('This is Just a test message DO NOT BE ALARMED!', 'warn');
@@ -44,7 +45,8 @@ UserUrl.init();
 /** Url input form **/
 
 const urlForm = document.getElementById('urlForm');
-
+const urlInput = document.getElementById('url');
+const urlSubmitBtn = urlForm.querySelector('button');
 
 const checkFileType = (fileUrl) => {
   console.log(fileUrl)
@@ -67,6 +69,11 @@ const checkFileType = (fileUrl) => {
   })
 } 
 
+const setFormDisable = (newState) => {
+  urlInput.disabled = newState;
+  urlSubmitBtn.disabled = newState;
+}
+
 const hideForm = () => {
   urlForm.classList.add('hide');
   // hide title
@@ -86,6 +93,7 @@ const handleUrlFormSubmit = (e) => {
   const url = encodeURI(urlInput.value);
   // check file type
   if (url) {
+    setFormDisable(disabled=true);
     checkFileType(url)
       .then(isImage => { //url is an image that be be loaded
         console.log('Is image', isImage);
@@ -96,6 +104,7 @@ const handleUrlFormSubmit = (e) => {
         UserUrl.save(url);
       })
       .catch(error => { //error getting image from url
+        setFormDisable(disabled=false);
         console.error('Error', error.message)
         userMessage.new('Check URL in another tab, it needs to be an image');
       })    

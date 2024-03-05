@@ -58,6 +58,12 @@ body {
   cursor: pointer;
 }
 
+.url-form button:disabled {
+  cursor: default;
+  background: rgba(45, 44, 44, 0.71);
+  color: #ffffff4f;
+}
+
 .url-form label {
   display: block;
   color:white;
