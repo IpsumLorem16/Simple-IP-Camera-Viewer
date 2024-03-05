@@ -365,9 +365,25 @@ MouseIdleTracker = {
   },
   showControls: function() {
     this.camViewerEl.classList.remove('mouse-idle');
+    this._addControlFocus();
+  },
+  _removeControlFocus: function() {
+    // remove focus from cam-control buttons
+    const focusedElement = document.activeElement;
+    const isButtonFocused = focusedElement.parentElement?.classList.contains('camera-controls');
+    isButtonFocused && focusedElement.blur();  
+    // Stop controls being focused while hidden
+    const camButtons = this.camControlsEl.querySelectorAll('button');
+    camButtons.forEach(button => button.tabIndex = '-1');
+  },
+  _addControlFocus: function() {
+    // re-allow controls being focused
+    const camButtons = this.camControlsEl.querySelectorAll('button');
+    camButtons.forEach(button => button.tabIndex = '0');
   },
   hideControls: function() {
-    this.camViewerEl.classList.add('mouse-idle');
+    this._removeControlFocus();
+    this.camViewerEl.classList.add('mouse-idle');  // hide controls & mouse
   },
   init: function() {
     this.camViewerEl = cameraViewer.cameraContainerEl;

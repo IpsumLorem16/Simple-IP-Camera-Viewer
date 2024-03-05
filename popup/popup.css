@@ -125,8 +125,13 @@ body {
 outline: 2px solid rgb(73, 188, 255);
 }
 
+.camera-container button:focus{
+  outline: none;
+  color: rgba(255, 255, 255, 0.9);
+}
+
 .camera-controls button:hover {
-  color: rgba(233, 233, 233, 0.9);
+  color: rgba(255, 255, 255, 0.9);
 }
 .camera-controls button:active {
   border:none;
@@ -334,6 +339,8 @@ outline: 2px solid rgb(73, 188, 255);
 
 /* Toast */
 .msg-container {
+  border: 2px solid #237c99;
+  filter: drop-shadow(2px 2px 5px black);
   --fade-in-time: 700ms;
   --fade-out-time: 300ms;
   display: flex;
