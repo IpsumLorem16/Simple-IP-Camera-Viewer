@@ -1,17 +1,5 @@
 // To do: 
-// Display viewer is paused, either with popup(like youtube), or by not hiding controls (or both) [x] 
-// Test with MJPEG, add mjpeg option. [-]
-// Validate URL input to make sure image is being fetched [x]
-// Remember last url/urls entered. [x]
-// Add fill window buton: fit camera viewer to window/open in window without url entry
-// Add option to remove cachebuster in cam-viewer, as it may break image fetching.[x] (dumb, breaks imagefetching)
-
-
-// for testing only 
-// userMessage.new('This is Just a test message DO NOT BE ALARMED!', 'warn');
-
-// for testing only end
-
+  // set viewer window size properly [ ]
 
 // Save last url entered, retrieve and populate url input on re-load. 
 const UserUrl = {
