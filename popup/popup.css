@@ -23,7 +23,7 @@ body.brighter-background.new-style {
 .new-style .url-form {
 	filter: drop-shadow(0 0 20px #4260a65c);
 }
-.new-style .url-form button{
+.new-style .url-form button, .new-style .url-form button:disabled{
   background: #5b1b6a;
   font-weight: bolder;
 }
