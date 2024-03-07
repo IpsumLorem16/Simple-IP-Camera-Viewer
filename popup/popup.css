@@ -8,6 +8,36 @@ body {
   background-position: bottom;
 }
 
+body.new-style {
+  background: #070c24;
+  box-shadow: inset 0px 0px 100px 10px black;
+
+  background: rgb(31,13,60);
+  background: radial-gradient(circle, rgb(31, 13, 60) 7%, rgb(10, 10, 40) 38%, rgb(15, 12, 22) 100%);
+
+}
+
+body.brighter-background.new-style {
+  background: radial-gradient(circle, rgb(59, 25, 113) 7%, rgb(10, 10, 40) 38%, rgb(15, 12, 22) 100%);
+}
+.new-style .url-form {
+	filter: drop-shadow(0 0 20px #4260a65c);
+}
+.new-style .url-form button{
+  background: #5b1b6a;
+  font-weight: bolder;
+}
+.new-style .camera-container {
+  border-radius: 6px;
+  box-shadow: 0px 6px 21px 2px #00000052;
+}
+.new-style .main-container {
+  justify-content: center;
+}
+.new-style h1 {
+  margin-top: 10px;
+}
+
 .main-container {
   max-width: 900px;
   display: flex;

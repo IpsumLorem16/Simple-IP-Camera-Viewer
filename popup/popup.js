@@ -1,5 +1,6 @@
 // To do: 
   // set viewer window size properly [ ]
+  // Fade out Url input, fade in camera window [ ]
 
 // Save last url entered, retrieve and populate url input on re-load. 
 const UserUrl = {
@@ -153,6 +154,7 @@ let cameraViewer = {
   showPlayer: function() {
     this.cameraContainerEl.classList.remove('hide');
     document.querySelector('.main-container').classList.add('player-visible');
+    document.body.classList.add('brighter-background');
     hideForm();
   },
   hidePlayer: function() {
