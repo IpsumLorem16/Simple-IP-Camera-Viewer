@@ -91,6 +91,7 @@ const handleUrlFormSubmit = (e) => {
       .then(isImage => { //url is an image that be be loaded
         console.log('Is image', isImage);
         userMessage.isVisible && userMessage.hideMessage();
+        cameraViewer.imageEl.src = url;
         hideForm();
         urlInput.value = ''; //clear input on page
         cameraViewer.init(url);  
@@ -114,7 +115,7 @@ urlForm.addEventListener('submit', (e)=> {
 /** Camera viewer **/
 let cameraViewer = {
   cameraContainerEl : document.querySelector('.camera-container'),
-  imageEl: null, 
+  imageEl: document.querySelector('.camera-container').children[0],
   _newImage: null,
   _loading:false,
   _failedImgRequests: 0,
@@ -204,6 +205,8 @@ let cameraViewer = {
   },
   init: function(url) {
     this.url = url;
+    delete this.imageEl; 
+    delete this.cameraContainerEl;
     this.cameraContainerEl = document.querySelector('.camera-container'); //cache element
     this.imageEl = document.querySelector('.camera-container').children[0]; //cache element
     this.play();
