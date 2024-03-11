@@ -1,6 +1,7 @@
 // To do: 
   // set viewer window size properly [ ]
   // Fade out Url input, fade in camera window [ ]
+  // load checked image into camera viewer before showing blank element [ ]
 
 // Save last url entered, retrieve and populate url input on re-load. 
 const UserUrl = {
@@ -36,6 +37,7 @@ UserUrl.init();
 const urlForm = document.getElementById('urlForm');
 const urlInput = document.getElementById('url');
 const urlSubmitBtn = urlForm.querySelector('button');
+const camIconImg = document.querySelector('.cam-header-img');
 
 const checkFileType = (fileUrl) => {
   console.log(fileUrl)
@@ -68,13 +70,14 @@ const hideForm = () => {
   // hide title
   const titleEl = document.querySelector('h1');
   titleEl.classList.add('hide');
-  
+  camIconImg.classList.add('hide');
 }
 const showForm = () => {
   urlForm.classList.remove('hide');
   // show title
   const titleEl = document.querySelector('h1');
   titleEl.classList.remove('hide');
+  camIconImg.classList.remove('hide')
 }
 
 const handleUrlFormSubmit = (e) => {

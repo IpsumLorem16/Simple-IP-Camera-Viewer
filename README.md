@@ -35,3 +35,7 @@ To run: go into project folder and type:
 Then press new Icon in Firefox to open a new page and load the extension.
 
 enter scource of image as URl
+
+## Credits
+SVG background from: svgbackgrounds.com
+SVG button icons from heroIcons.com
