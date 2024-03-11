@@ -77,7 +77,8 @@ const showForm = () => {
   // show title
   const titleEl = document.querySelector('h1');
   titleEl.classList.remove('hide');
-  camIconImg.classList.remove('hide')
+  camIconImg.classList.remove('hide');
+  setFormDisable(disabled=false);
 }
 
 const handleUrlFormSubmit = (e) => {
