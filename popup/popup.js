@@ -3,7 +3,6 @@
   // Fade out Url input, fade in camera window [ ]
   // load checked image into camera viewer before showing blank element [x]
 
-// Save last url entered, retrieve and populate url input on re-load. 
 const UserUrl = {
   inputEl: document.getElementById('url'),
   lastUsedUrl: '',
