@@ -38,6 +38,7 @@ const urlForm = document.getElementById('urlForm');
 const urlInput = document.getElementById('url');
 const urlSubmitBtn = urlForm.querySelector('button');
 const camIconImg = document.querySelector('.cam-header-img');
+const titleEl = document.querySelector('h1');
 
 const checkFileType = (fileUrl) => {
   return new Promise((resolve, reject) => {
@@ -64,18 +65,17 @@ const setFormDisable = (newState) => {
 }
 
 const hideForm = () => {
-  urlForm.classList.add('hide');
-  // hide title
-  const titleEl = document.querySelector('h1');
-  titleEl.classList.add('hide');
   camIconImg.classList.add('hide');
+  titleEl.classList.add('hide');
+  urlForm.classList.add('hide');
+  userMessage.messageEl.classList.add('hide');
+  userMessage.isVisible && userMessage.hideMessage();
 }
 const showForm = () => {
-  urlForm.classList.remove('hide');
-  // show title
-  const titleEl = document.querySelector('h1');
-  titleEl.classList.remove('hide');
   camIconImg.classList.remove('hide');
+  titleEl.classList.remove('hide');
+  urlForm.classList.remove('hide');
+  userMessage.messageEl.classList.add('hide');
   setFormDisable(disabled=false);
 }
 
@@ -87,7 +87,6 @@ const handleUrlFormSubmit = (e) => {
     setFormDisable(disabled=true);
     checkFileType(url)
       .then(isImage => { //url is an image that be be loaded
-        userMessage.isVisible && userMessage.hideMessage();
         cameraViewer.imageEl.src = url;
         hideForm();
         urlInput.value = ''; //clear input on page
