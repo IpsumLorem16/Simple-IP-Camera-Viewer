@@ -413,12 +413,10 @@ let userMessage = {
   _isVisible: false,
   showMessage : function(type) {
     this.messageEl.className = `msg-container ${type}`;
-    // this.messageEl.classList.remove('hidden');
     this._isVisible = true
   },
   hideMessage : function() {
-    this.messageEl.className = 'hidden msg-container';
-    // this.messageEl.classList.add('hidden');
+    this.messageEl.className = 'visually-hidden msg-container';
     this._isVisible = false;
   },
   set text(newText) {
