@@ -40,7 +40,6 @@ const urlSubmitBtn = urlForm.querySelector('button');
 const camIconImg = document.querySelector('.cam-header-img');
 
 const checkFileType = (fileUrl) => {
-  console.log(fileUrl)
   return new Promise((resolve, reject) => {
     const img = new Image();
     let loadTimeout;
@@ -53,7 +52,6 @@ const checkFileType = (fileUrl) => {
       reject({isImage:false, message: 'failed'}); // Error loading the image, it's not an image file
     };
     loadTimeout = setTimeout(()=>{
-      console.log('timedout')
       reject({isImage:false, message:'Took too long to load'}); //Took too long to resolve
     },20000) //20s
     img.src = fileUrl;
@@ -89,7 +87,6 @@ const handleUrlFormSubmit = (e) => {
     setFormDisable(disabled=true);
     checkFileType(url)
       .then(isImage => { //url is an image that be be loaded
-        console.log('Is image', isImage);
         userMessage.isVisible && userMessage.hideMessage();
         cameraViewer.imageEl.src = url;
         hideForm();
