@@ -2,6 +2,7 @@
   // set viewer window size properly [ ]
   // Fade out Url input, fade in camera window [ ]
   // load checked image into camera viewer before showing blank element [x]
+  // Tidy code [ ]
 
 const UserUrl = {
   inputEl: document.getElementById('url'),
@@ -252,13 +253,13 @@ snapshotBtn.addEventListener('click', e => {
   
   canvas.toBlob(function(blob) {
     let link = document.createElement('a');
-    link.download = `${getDateTimeText()}.png`;
+    link.download = `${getDateTimeText()}.jpg`;
     
     link.href = URL.createObjectURL(blob);
     link.click();
     
     URL.revokeObjectURL(link.href);
-  }, 'image/png');
+  }, 'image/jpeg');
 })
 
 //Toggle fullscreen
