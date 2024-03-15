@@ -1,5 +1,4 @@
 // To do: 
-  // set viewer window size properly [ ]
   // Fade out Url input, fade in camera window [ ]
   // load checked image into camera viewer before showing blank element [x]
   // Tidy code [ ]
