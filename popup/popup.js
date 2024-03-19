@@ -1,6 +1,8 @@
-// To do: 
-  // Tidy code [ ]
-
+/* To do: 
+  > Tidy code [ ]
+    - Url form [ ]
+    - Control buttons [ ]
+*/
 const UserUrl = {
   inputEl: document.getElementById('url'),
   lastUsedUrl: '',
