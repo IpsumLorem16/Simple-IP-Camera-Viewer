@@ -3,19 +3,18 @@
     - Url form [ ]
     - Control buttons [ ]
 */
-const UserUrl = {
-  inputEl: document.getElementById('url'),
+const userData = {
   lastUsedUrl: '',
   getLastUrl: function(){
     return browser.storage.local.get("userUrl")
   },
-  save: function(url){
+  saveUrl: function(url){
     const userUrl = { value:url || '' }
     const onError = (e)=>{console.log(e.message)};
 
     browser.storage.local.set({userUrl}).catch(onError);
   },
-  async init(){
+  async populateUrlInput(){
     try {
       let savedData = await this.getLastUrl();
       this.lastUsedUrl = savedData?.userUrl?.value || '';
@@ -24,12 +23,16 @@ const UserUrl = {
       this.lastUsedUrl = '';
     } finally {
       if (this.lastUsedUrl?.length > 0) {
-        this.inputEl.value = this.lastUsedUrl;
+        const inputEl = document.getElementById('url');
+        inputEl.value = this.lastUsedUrl;
       }
     }
+  },
+  init(){
+    this.populateUrlInput();
   }
 }
-UserUrl.init();
+userData.init();
 
 /** Url input form **/
 
@@ -90,7 +93,7 @@ const handleUrlFormSubmit = (e) => {
         hideForm();
         urlInput.value = ''; //clear input on page
         cameraViewer.init(url);  
-        UserUrl.save(url);
+        userData.saveUrl(url);
       })
       .catch(error => { //error getting image from url
         setFormDisable(disabled=false);
