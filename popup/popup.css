@@ -28,7 +28,8 @@ body.brighter-background {
 }
 
 .main-container {
-  max-width: 900px;
+  /* max-width: 900px; */
+  max-width:100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,6 +40,14 @@ body.brighter-background {
 
 .main-container.player-visible {
   justify-content: center;
+  max-width:900px;
+}
+
+.main-container .header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .main-container .cam-header-img {
@@ -59,6 +68,7 @@ body.brighter-background {
 .url-form {
   --input-radius: 30px; 
   filter: drop-shadow(0 0 20px #4260a65c);
+  max-width: 90vw;
 }
 
 .url-form input {
@@ -68,7 +78,7 @@ body.brighter-background {
   padding: 17px;
   height: 45px;
   width: 400px;
-  max-width: 100%;
+  max-width: 69vw;
 }
 
 .url-form button {
