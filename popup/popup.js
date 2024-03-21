@@ -35,80 +35,77 @@ const userData = {
 userData.init();
 
 /** Url input form **/
+urlForm = {
+  formEl: document.getElementById('urlForm'),
+  urlInput: document.getElementById('url'),
+  urlSubmitBtn: document.querySelector('#urlForm button'),
+  headerEl: document.querySelector('.header'),
 
-const urlForm = document.getElementById('urlForm');
-const urlInput = document.getElementById('url');
-const urlSubmitBtn = urlForm.querySelector('button');
-const camIconImg = document.querySelector('.cam-header-img');
-const titleEl = document.querySelector('h1');
-
-const checkFileType = (fileUrl) => {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    let loadTimeout;
-    img.onload = function() {
-      clearTimeout(loadTimeout);
-      resolve(true); // Image loaded successfully, it's an image file
-    };
-    img.onerror = function(e) {
-      clearTimeout(loadTimeout);
-      reject({isImage:false, message: 'failed'}); // Error loading the image, it's not an image file
-    };
-    loadTimeout = setTimeout(()=>{
-      reject({isImage:false, message:'Took too long to load'}); //Took too long to resolve
-    },20000) //20s
-    img.src = fileUrl;
-  })
-} 
-
-const setFormDisable = (newState) => {
-  urlInput.disabled = newState;
-  urlSubmitBtn.disabled = newState;
-}
-
-const hideForm = () => {
-  camIconImg.classList.add('hide');
-  titleEl.classList.add('hide');
-  urlForm.classList.add('hide');
-  userMessage.messageEl.classList.add('hide');
-  userMessage.isVisible && userMessage.hideMessage();
-}
-const showForm = () => {
-  camIconImg.classList.remove('hide');
-  titleEl.classList.remove('hide');
-  urlForm.classList.remove('hide');
-  userMessage.messageEl.classList.add('hide');
-  setFormDisable(disabled=false);
-}
-
-const handleUrlFormSubmit = (e) => {
-  const urlInput = e.target[0];
-  const url = encodeURI(urlInput.value);
-  // check file type
-  if (url) {
-    setFormDisable(disabled=true);
-    checkFileType(url)
-      .then(isImage => { //url is an image that be be loaded
-        cameraViewer.imageEl.src = url;
-        hideForm();
-        urlInput.value = ''; //clear input on page
-        cameraViewer.init(url);  
-        userData.saveUrl(url);
-      })
-      .catch(error => { //error getting image from url
-        setFormDisable(disabled=false);
-        console.error('Error', error.message)
-        userMessage.new('Check URL in another tab, it needs to be an image');
-      })    
+  checkFileType(fileUrl) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      let loadTimeout;
+      img.onload = function() {
+        clearTimeout(loadTimeout);
+        resolve(true); // Image loaded successfully, it's an image file
+      };
+      img.onerror = function(e) {
+        clearTimeout(loadTimeout);
+        reject({isImage:false, message: 'failed'}); // Error loading the image, it's not an image file
+      };
+      loadTimeout = setTimeout(()=>{
+        reject({isImage:false, message:'Took too long to load'}); //Took too long to resolve
+      },20000) //20s
+      img.src = fileUrl;
+    })
+  },
+  setFormDisable(newState) {
+    this.urlInput.disabled = newState;
+    this.urlSubmitBtn.disabled = newState;
+  },
+  hideForm() {
+    this.headerEl.classList.add('hide');
+    this.formEl.classList.add('hide');
+    userMessage.messageEl.classList.add('hide');
+    userMessage.isVisible && userMessage.hideMessage();
+  },
+  showForm() {
+    this.headerEl.classList.remove('hide');
+    this.formEl.classList.remove('hide');
+    userMessage.messageEl.classList.add('hide');
+    this.setFormDisable(disabled=false);
+    this.urlInput.value = userData.lastUsedUrl;
+  },
+  handleUrlFormSubmit(e) {
+    const urlInput = e.target[0];
+    const url = encodeURI(urlInput.value);
+    // check file type
+    if (url) {
+      this.setFormDisable(disabled = true);
+      this.checkFileType(url)
+        .then(isImage => { //url is an image that be be loaded
+          cameraViewer.imageEl.src = url;
+          this.hideForm();
+          urlInput.value = ''; //clear input on page
+          cameraViewer.init(url);
+          userData.saveUrl(url);
+        })
+        .catch(error => { //error getting image from url
+          this.setFormDisable(disabled = false);
+          console.error('Error', error.message)
+          userMessage.new('Check URL in another tab, it needs to be an image');
+        })
+    }
+  },
+  init: function() {
+    this.formEl.addEventListener('submit', (e)=> {
+      e.preventDefault();
+      this.handleUrlFormSubmit(e);
+    });
   }
 }
-
-urlForm.addEventListener('submit', (e)=> {
-  e.preventDefault();
-  handleUrlFormSubmit(e);
-})
+urlForm.init();
 /** End of Url input form **/
-
 
 /** Camera viewer **/
 let cameraViewer = {
@@ -158,12 +155,14 @@ let cameraViewer = {
     this.cameraContainerEl.classList.remove('hide');
     document.querySelector('.main-container').classList.add('player-visible');
     document.body.classList.add('brighter-background');
-    hideForm();
+    urlForm.hideForm();
   },
   hidePlayer: function() {
     this.cameraContainerEl.classList.add('hide')
     document.querySelector('.main-container').classList.remove('player-visible');
-    showForm();
+    document.body.classList.remove('brighter-background');
+    this.pause();
+    urlForm.showForm();
   },
   toggleFullscreen: function(){
     //Toggles camera-viewer fullscreen and not.

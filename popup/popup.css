@@ -452,7 +452,7 @@ outline: 2px solid rgb(73, 188, 255);
 }
 
 .hide {
-  display: none;
+  display: none !important;
 }
 
 /* Media queries */
