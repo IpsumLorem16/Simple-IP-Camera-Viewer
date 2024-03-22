@@ -215,120 +215,128 @@ let cameraViewer = {
 /** End of Camera Veiwer **/
 
 /** Camera Controls **/
-const playPauseBtn = document.getElementById('playPauseBtn');
-const snapshotBtn = document.getElementById('snapshotBtn');
-const fullscreenBtn = document.getElementById('fullscreenBtn');
+cameraControls = {
+  play: {
+    element: document.getElementById('playPauseBtn'),
+    onClick(event){
+      //Play or pause live View
+      const button = event.target;
+      const state = button.getAttribute('data-state');
+      if (state === 'pause') {
+        cameraViewer.pause();
+        button.setAttribute('data-state', 'play');
+        button.title = 'Play';
+      } else if (state === 'play') {
+        cameraViewer.play()
+        button.setAttribute('data-state', 'pause');
+        button.title = 'Pause';
+      }
+      MouseIdleTracker.showControls();
+    },
+  },
+  snapshot: {
+    element: document.getElementById('snapshotBtn'),
+    onClick() {
+      triggerScreenshotEffect();
+      let img = cameraViewer.imageEl;
+      // Create canvas same size as img
+      let canvas = document.createElement('canvas')
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      // Add img to it
+      let ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      // Create blob, and download image
+      canvas.toBlob(function (blob) {
+        let link = document.createElement('a');
+        link.download = `${getDateTimeText()}.jpg`;
 
-//Play or pause live view
-playPauseBtn.addEventListener('click', (event) => {
-  const button = event.target;
-  const state = button.getAttribute('data-state');
-  if (state === 'pause') {
-    cameraViewer.pause();
-    button.setAttribute('data-state', 'play');
-    button.title = 'Play';
-  } else if (state === 'play') {
-    cameraViewer.play()
-    button.setAttribute('data-state', 'pause');
-    button.title = 'Pause';
+        link.href = URL.createObjectURL(blob);
+        link.click();
+
+        URL.revokeObjectURL(link.href);
+      }, 'image/jpeg');
+    },
+  },
+  fullscreen: {
+    element: document.getElementById('fullscreenBtn'),
+    onClick(){
+      cameraViewer.toggleFullscreen();
+    },
+  },
+  init() {
+    this.play.element.addEventListener('click', this.play.onClick);
+    this.snapshot.element.addEventListener('click', this.snapshot.onClick);
+    this.fullscreen.element.addEventListener('click', this.fullscreen.onClick);
   }
-  MouseIdleTracker.showControls();
-})
-
-// Take snapshot
-// Grabs currently displayed image, and downloads automatically
-snapshotBtn.addEventListener('click', e => {
-  triggerScreenshotEffect();
-  let img = cameraViewer.imageEl;
-  // // Add image to canvas, and create blob
-  let canvas = document.createElement('canvas')
-  canvas.width = img.naturalWidth;
-  canvas.height = img.naturalHeight;
-  
-  let ctx = canvas.getContext('2d');
-  ctx.drawImage(img, 0, 0);
-  
-  canvas.toBlob(function(blob) {
-    let link = document.createElement('a');
-    link.download = `${getDateTimeText()}.jpg`;
-    
-    link.href = URL.createObjectURL(blob);
-    link.click();
-    
-    URL.revokeObjectURL(link.href);
-  }, 'image/jpeg');
-})
-
-//Toggle fullscreen
-fullscreenBtn.addEventListener('click', (e)=>{
-  cameraViewer.toggleFullscreen();
-})
+}
+cameraControls.init();
 
 // Options button + menu
 // Currently Disabled. 
-optionsMenu = {
-  menuEl: null,
-  optionsBtn: null,
-  isExpanded: false,
-  cachebusterEnabled: true, //true is default setting
-  handleClick: function(e){
-    const target = e.target;
-    let option = target.getAttribute('data-option');
+// optionsMenu = {
+//   menuEl: null,
+//   optionsBtn: null,
+//   isExpanded: false,
+//   cachebusterEnabled: true, //true is default setting
+//   handleClick: function(e){
+//     const target = e.target;
+//     let option = target.getAttribute('data-option');
 
-    if (option !== null) {
-      (target.getAttribute('role') === 'menuitemcheckbox') && this.toggleSwitch(target);
-    }
-  },
-  toggleSwitch: function(target){
-    let option = target.getAttribute('data-option');
-    let isChecked = target.getAttribute('aria-checked');
-    let newAtrribute = isChecked == 'true' ? false : true;
-    target.setAttribute('aria-checked', newAtrribute);
+//     if (option !== null) {
+//       (target.getAttribute('role') === 'menuitemcheckbox') && this.toggleSwitch(target);
+//     }
+//   },
+//   toggleSwitch: function(target){
+//     let option = target.getAttribute('data-option');
+//     let isChecked = target.getAttribute('aria-checked');
+//     let newAtrribute = isChecked == 'true' ? false : true;
+//     target.setAttribute('aria-checked', newAtrribute);
 
-    // handle the relevent option switched
-    switch(option){
-      case 'cachebuster':
-        this.handleCachebuster(newAtrribute);
-      case 'mjpeg':
-        this.handleMJPEG(newAtrribute);
-    }
-  },
-  handleMJPEG: function(newSetting){
-    console.log('handleMJPEG'+newSetting);
-  },
-  handleCachebuster: function(newSetting){
-    console.log('handleCachebuster'+newSetting);
-    this.cachebusterEnabled = newSetting;
-  },
-  show: function() {
-    this.optionsBtn.setAttribute('aria-expanded', 'true');
-    this.menuWrapper.classList.remove('fadeOut');
-    this.menuWrapper.classList.add('expanded');
-    this.isExpanded = true;
-  },
-  hide: function()  {
-    this.optionsBtn.setAttribute('aria-expanded', 'false');
-    this.isExpanded = false;
-    this.menuWrapper.classList.add('fadeOut');
+//     // handle the relevent option switched
+//     switch(option){
+//       case 'cachebuster':
+//         this.handleCachebuster(newAtrribute);
+//       case 'mjpeg':
+//         this.handleMJPEG(newAtrribute);
+//     }
+//   },
+//   handleMJPEG: function(newSetting){
+//     console.log('handleMJPEG'+newSetting);
+//   },
+//   handleCachebuster: function(newSetting){
+//     console.log('handleCachebuster'+newSetting);
+//     this.cachebusterEnabled = newSetting;
+//   },
+//   show: function() {
+//     this.optionsBtn.setAttribute('aria-expanded', 'true');
+//     this.menuWrapper.classList.remove('fadeOut');
+//     this.menuWrapper.classList.add('expanded');
+//     this.isExpanded = true;
+//   },
+//   hide: function()  {
+//     this.optionsBtn.setAttribute('aria-expanded', 'false');
+//     this.isExpanded = false;
+//     this.menuWrapper.classList.add('fadeOut');
     
-    this.menuWrapper.addEventListener('animationend', (e)=> {
-      if (this.optionsBtn.getAttribute('aria-expanded') === 'false') {
-        this.menuWrapper.classList.remove('expanded');
-      }
-    }, {once:true})
-  },
-  toggleVisible: function() {
-    const isExpanded = this.optionsBtn.getAttribute('aria-expanded') === 'true' ? true : false;
-    isExpanded ? this.hide() : this.show();
-  },
-  init: function(){
-    this.menuEl = document.querySelector('.options-menu');
-    this.menuWrapper = document.getElementById('optionsOverlay');
-    this.optionsBtn = document.getElementById('optionsBtn');
-    this.menuEl.addEventListener('click', (e) => this.handleClick(e));
-    this.optionsBtn.addEventListener('click', () => this.toggleVisible());
-  }
-}
+//     this.menuWrapper.addEventListener('animationend', (e)=> {
+//       if (this.optionsBtn.getAttribute('aria-expanded') === 'false') {
+//         this.menuWrapper.classList.remove('expanded');
+//       }
+//     }, {once:true})
+//   },
+//   toggleVisible: function() {
+//     const isExpanded = this.optionsBtn.getAttribute('aria-expanded') === 'true' ? true : false;
+//     isExpanded ? this.hide() : this.show();
+//   },
+//   init: function(){
+//     this.menuEl = document.querySelector('.options-menu');
+//     this.menuWrapper = document.getElementById('optionsOverlay');
+//     this.optionsBtn = document.getElementById('optionsBtn');
+//     this.menuEl.addEventListener('click', (e) => this.handleClick(e));
+//     this.optionsBtn.addEventListener('click', () => this.toggleVisible());
+//   }
+// }
 // optionsMenu.init();
 
 
