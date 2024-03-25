@@ -1,8 +1,3 @@
-/* To do: 
-  > Tidy code [ ]
-    - Url form [x]
-    - Control buttons [ ]
-*/
 const userData = {
   lastUsedUrl: '',
   getLastUrl: function(){
