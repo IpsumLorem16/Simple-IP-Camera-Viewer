@@ -1,3 +1,7 @@
+/* To do:
+  save all entered urls [ ]
+  add MJPEG option
+*/
 const userData = {
   lastUsedUrl: '',
   getLastUrl: function(){
@@ -269,70 +273,70 @@ cameraControls.init();
 
 // Options button + menu
 // Currently Disabled. 
-// optionsMenu = {
-//   menuEl: null,
-//   optionsBtn: null,
-//   isExpanded: false,
-//   cachebusterEnabled: true, //true is default setting
-//   handleClick: function(e){
-//     const target = e.target;
-//     let option = target.getAttribute('data-option');
+optionsMenu = {
+  menuEl: null,
+  optionsBtn: null,
+  isExpanded: false,
+  cachebusterEnabled: true, //true is default setting
+  handleClick: function(e){
+    const target = e.target;
+    let option = target.getAttribute('data-option');
 
-//     if (option !== null) {
-//       (target.getAttribute('role') === 'menuitemcheckbox') && this.toggleSwitch(target);
-//     }
-//   },
-//   toggleSwitch: function(target){
-//     let option = target.getAttribute('data-option');
-//     let isChecked = target.getAttribute('aria-checked');
-//     let newAtrribute = isChecked == 'true' ? false : true;
-//     target.setAttribute('aria-checked', newAtrribute);
+    if (option !== null) {
+      (target.getAttribute('role') === 'menuitemcheckbox') && this.toggleSwitch(target);
+    }
+  },
+  toggleSwitch: function(target){
+    let option = target.getAttribute('data-option');
+    let isChecked = target.getAttribute('aria-checked');
+    let newAtrribute = isChecked == 'true' ? false : true;
+    target.setAttribute('aria-checked', newAtrribute);
 
-//     // handle the relevent option switched
-//     switch(option){
-//       case 'cachebuster':
-//         this.handleCachebuster(newAtrribute);
-//       case 'mjpeg':
-//         this.handleMJPEG(newAtrribute);
-//     }
-//   },
-//   handleMJPEG: function(newSetting){
-//     console.log('handleMJPEG'+newSetting);
-//   },
-//   handleCachebuster: function(newSetting){
-//     console.log('handleCachebuster'+newSetting);
-//     this.cachebusterEnabled = newSetting;
-//   },
-//   show: function() {
-//     this.optionsBtn.setAttribute('aria-expanded', 'true');
-//     this.menuWrapper.classList.remove('fadeOut');
-//     this.menuWrapper.classList.add('expanded');
-//     this.isExpanded = true;
-//   },
-//   hide: function()  {
-//     this.optionsBtn.setAttribute('aria-expanded', 'false');
-//     this.isExpanded = false;
-//     this.menuWrapper.classList.add('fadeOut');
+    // handle the relevent option switched
+    switch(option){
+      case 'cachebuster':
+        this.handleCachebuster(newAtrribute);
+      case 'mjpeg':
+        this.handleMJPEG(newAtrribute);
+    }
+  },
+  handleMJPEG: function(newSetting){
+    console.log('handleMJPEG'+newSetting);
+  },
+  handleCachebuster: function(newSetting){
+    console.log('handleCachebuster'+newSetting);
+    this.cachebusterEnabled = newSetting;
+  },
+  show: function() {
+    this.optionsBtn.setAttribute('aria-expanded', 'true');
+    this.menuWrapper.classList.remove('fadeOut');
+    this.menuWrapper.classList.add('expanded');
+    this.isExpanded = true;
+  },
+  hide: function()  {
+    this.optionsBtn.setAttribute('aria-expanded', 'false');
+    this.isExpanded = false;
+    this.menuWrapper.classList.add('fadeOut');
     
-//     this.menuWrapper.addEventListener('animationend', (e)=> {
-//       if (this.optionsBtn.getAttribute('aria-expanded') === 'false') {
-//         this.menuWrapper.classList.remove('expanded');
-//       }
-//     }, {once:true})
-//   },
-//   toggleVisible: function() {
-//     const isExpanded = this.optionsBtn.getAttribute('aria-expanded') === 'true' ? true : false;
-//     isExpanded ? this.hide() : this.show();
-//   },
-//   init: function(){
-//     this.menuEl = document.querySelector('.options-menu');
-//     this.menuWrapper = document.getElementById('optionsOverlay');
-//     this.optionsBtn = document.getElementById('optionsBtn');
-//     this.menuEl.addEventListener('click', (e) => this.handleClick(e));
-//     this.optionsBtn.addEventListener('click', () => this.toggleVisible());
-//   }
-// }
-// optionsMenu.init();
+    this.menuWrapper.addEventListener('animationend', (e)=> {
+      if (this.optionsBtn.getAttribute('aria-expanded') === 'false') {
+        this.menuWrapper.classList.remove('expanded');
+      }
+    }, {once:true})
+  },
+  toggleVisible: function() {
+    const isExpanded = this.optionsBtn.getAttribute('aria-expanded') === 'true' ? true : false;
+    isExpanded ? this.hide() : this.show();
+  },
+  init: function(){
+    this.menuEl = document.querySelector('.options-menu');
+    this.menuWrapper = document.getElementById('optionsOverlay');
+    this.optionsBtn = document.getElementById('optionsBtn');
+    this.menuEl.addEventListener('click', (e) => this.handleClick(e));
+    this.optionsBtn.addEventListener('click', () => this.toggleVisible());
+  }
+}
+optionsMenu.init();
 
 
 // Hide camera controls, when mouse stays still.
