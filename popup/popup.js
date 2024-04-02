@@ -1,6 +1,8 @@
 /* To do:
   save all entered urls [ ]
   add MJPEG option [ ]
+    - Make it pause [x]
+    - add polling on decode, and reset img src on fail [ ]
 */
 const userData = {
   lastUsedUrl: '',
