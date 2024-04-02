@@ -3,6 +3,8 @@
   add MJPEG option [ ]
     - Make it pause [x]
     - add polling on decode, and reset img src on fail [ ]
+    - Hide menu on clicking outside of it [x]
+  bugfix: screenshot effect messing with menu with 2 images in cameraviewer element despite one being hidden [ ]
 */
 const userData = {
   lastUsedUrl: '',
@@ -321,6 +323,8 @@ optionsMenu = {
     this.menuWrapper.classList.remove('fadeOut');
     this.menuWrapper.classList.add('expanded');
     this.isExpanded = true;
+
+    this._addClickToClose();
   },
   hide: function()  {
     this.optionsBtn.setAttribute('aria-expanded', 'false');
@@ -333,7 +337,17 @@ optionsMenu = {
       }
     }, {once:true})
   },
-  toggleVisible: function() {
+  _addClickToClose(){
+    document.addEventListener('click', (e) => {
+      if (!(e.target.classList.contains('menuitem')) && !(e.target.classList.contains('options-overlay')) && !(e.target.id === 'optionsBtn')) {
+        this.hide()
+      } else {
+        this._addClickToClose();
+      }
+    }, { once: true });
+  },
+  toggleVisible: function(e) {
+    e.stopPropagation();
     const isExpanded = this.optionsBtn.getAttribute('aria-expanded') === 'true' ? true : false;
     isExpanded ? this.hide() : this.show();
   },
@@ -342,7 +356,7 @@ optionsMenu = {
     this.menuWrapper = document.getElementById('optionsOverlay');
     this.optionsBtn = document.getElementById('optionsBtn');
     this.menuEl.addEventListener('click', (e) => this.handleClick(e));
-    this.optionsBtn.addEventListener('click', () => this.toggleVisible());
+    this.optionsBtn.addEventListener('click', (e) => this.toggleVisible(e));
   }
 }
 optionsMenu.init();
