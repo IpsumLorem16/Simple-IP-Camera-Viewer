@@ -1,6 +1,6 @@
 /* To do:
   save all entered urls [ ]
-  add MJPEG option
+  add MJPEG option [ ]
 */
 const userData = {
   lastUsedUrl: '',
@@ -120,10 +120,15 @@ let cameraViewer = {
   play: function() {
     this.playing = true;
     this._updateImage();
+    hidePauseImg(); //hide MJPEG paused image
   },
   pause: function() {
     this.playing = false;
     this.loading = false;
+    // if mjpeg set img src to bloburl
+    if (optionsMenu.mjpegEnabled) {
+      setPauseImg();    
+    }
   },
   _updateImage: function() {
     if (this.playing === true) {     
@@ -278,6 +283,7 @@ optionsMenu = {
   optionsBtn: null,
   isExpanded: false,
   cachebusterEnabled: true, //true is default setting
+  mjpegEnabled: false,
   handleClick: function(e){
     const target = e.target;
     let option = target.getAttribute('data-option');
@@ -302,6 +308,7 @@ optionsMenu = {
   },
   handleMJPEG: function(newSetting){
     console.log('handleMJPEG'+newSetting);
+    this.mjpegEnabled = newSetting;
   },
   handleCachebuster: function(newSetting){
     console.log('handleCachebuster'+newSetting);
@@ -509,4 +516,37 @@ function triggerScreenshotEffect() {
     cameraContainerEl.classList.remove('snapshot-flash')
   }, {once:true})
 
+}
+
+const setPauseImg = () => {
+  let img = cameraViewer.imageEl;
+  const pausedImgEl = document.querySelector('.paused-img');
+  // Create canvas same size as img
+  let canvas = document.createElement('canvas')
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+  // Add img to it
+  let ctx = canvas.getContext('2d');
+  ctx.drawImage(img, 0, 0);
+  // Create blob
+  canvas.toBlob(function (blob) {
+    // Create new image from blob
+    const url = URL.createObjectURL(blob);
+    const newImg =  new Image();
+    newImg.src = url;
+    // Wait for image to load/decode then add to page
+    newImg.decode().then(() => {
+      pausedImgEl.src = url;
+      cameraViewer.imageEl.classList.add('hide');
+      pausedImgEl.classList.remove('hide');
+
+      URL.revokeObjectURL(url);
+    })
+  }, 'image/jpeg');
+}
+
+const hidePauseImg = () => {
+  const pausedImgEl = document.querySelector('.paused-img');
+  pausedImgEl.classList.add('hide');
+  cameraViewer.imageEl.classList.remove('hide');
 }
