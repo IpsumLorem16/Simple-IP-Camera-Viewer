@@ -510,10 +510,10 @@ function getDateTimeText() {
 
 // Show User screenshot button has been pressed via visual effect.
 let currAnimation = 'fadeOutGrow'
+const cameraContainerEl = cameraViewer.cameraContainerEl;
+const snapOverlay = document.querySelector('.snap-overlay');
 
 function triggerScreenshotEffect() {
-  const cameraContainerEl = cameraViewer.cameraContainerEl;
-  const snapOverlay = cameraContainerEl.children[2];
 
   // This is needed to restart the CSS animation, when pressing the button quickly.
   // (It's dumb but works...)
