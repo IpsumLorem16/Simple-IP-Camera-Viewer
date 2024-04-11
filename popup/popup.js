@@ -1,11 +1,3 @@
-/* To do:
-  save all entered urls [ ]
-  add MJPEG option [ ]
-    - Make it pause [x]
-    - add polling on decode, and reset img src on fail [ ]
-    - Hide menu on clicking outside of it [x]
-  bugfix: screenshot effect messing with menu with 2 images in cameraviewer element despite one being hidden [x]
-*/
 const userData = {
   lastUsedUrl: '',
   getLastUrl: function(){
