@@ -4,7 +4,7 @@
     - Make it pause [x]
     - add polling on decode, and reset img src on fail [ ]
     - Hide menu on clicking outside of it [x]
-  bugfix: screenshot effect messing with menu with 2 images in cameraviewer element despite one being hidden [ ]
+  bugfix: screenshot effect messing with menu with 2 images in cameraviewer element despite one being hidden [x]
 */
 const userData = {
   lastUsedUrl: '',
@@ -142,9 +142,13 @@ let cameraViewer = {
       // this._newImage.src = `${this.url}?cacheBuster=${Date.now()}`;
       this._newImage.src = `${this.url}${cachebuster}`;
       this._loading = true;
-      
-      this._newImage.onload = () => this._handleImgLoad();
-      this._newImage.onerror = () => this._handleImgError();
+      // if not MJPEG:
+      // if (!optionsMenu.mjpegEnabled) {
+        this._newImage.onload = () => this._handleImgLoad();
+        this._newImage.onerror = () => this._handleImgError();
+      // } else {
+      //   this._monitorMJPEGStream();
+      // }
     }
   },
   _handleImgLoad: function() {
@@ -152,12 +156,32 @@ let cameraViewer = {
       this._connectionErrHandler(isRequestError = false);
       this.imageEl.src = this._newImage.src;
       this._loading = false;
-      window.requestAnimationFrame(this._updateImage.bind(this));
+      if (!optionsMenu.mjpegEnabled) {
+        window.requestAnimationFrame(this._updateImage.bind(this));
+      } else {
+        this._monitorMJPEGStream();
+      }
     }
   },
   _handleImgError: function() {
     this._connectionErrHandler(isRequestError = true);
     window.requestAnimationFrame(this._updateImage.bind(this));
+  },
+  _mjpegTimeout: null,
+  _monitorMJPEGStream: async function() {
+    clearTimeout(this._mjpegTimeout);
+    if (optionsMenu.mjpegEnabled && cameraViewer.playing) {
+      try {
+        await this.imageEl.decode();
+        console.log('MJPEGmon: image decoded!');
+      } catch { // Error decoding MJPEG
+        console.log('MJPEGmon: err! image NOT decoded..');
+        this._connectionErrHandler(isRequestError = true, null ,force=true); //show error
+        window.requestAnimationFrame(this._updateImage.bind(this)); // reload MJPEG
+      }
+      // restart MJPEG monitor
+      this._mjpegTimeout = setTimeout(()=>{this._monitorMJPEGStream()},5000)
+    }
   },
   showPlayer: function() {
     this.cameraContainerEl.classList.remove('hide');
@@ -190,7 +214,7 @@ let cameraViewer = {
       fullscreenBtnEl.title = 'Full screen';
     }
   },
-  _connectionErrHandler: function(isRequestError, error){
+  _connectionErrHandler: function(isRequestError, error, force=false){
     isRequestError ? this._failedImgRequests++ : this._failedImgRequests = 0;
 
     // if no problem, and connection err flag is not set, return
@@ -202,7 +226,7 @@ let cameraViewer = {
       this._connectionErr = false;
       this.cameraContainerEl.setAttribute('data-connection-err', false);
       //If connection problem
-    } else if (this._failedImgRequests > 3) {
+    } else if (this._failedImgRequests > 3 || force) {
       // set flag and show connection error
       this._connectionErr = true;
       this.cameraContainerEl.setAttribute('data-connection-err', true);
@@ -313,6 +337,11 @@ optionsMenu = {
   handleMJPEG: function(newSetting){
     console.log('handleMJPEG'+newSetting);
     this.mjpegEnabled = newSetting;
+    
+    //cameraViewer needs updateImage loop restarted when returning to jpeg snapshots
+    if ((newSetting == false) && cameraViewer.playing) {
+      cameraViewer.play(); 
+    }
   },
   handleCachebuster: function(newSetting){
     console.log('handleCachebuster'+newSetting);
