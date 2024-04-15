@@ -8,10 +8,10 @@ Views MJPEG, or JPG snapshot. Should work with most ONVIF cameras and others.
 
 - Fullscreen View.
 - Take and Immedietly download a snapshot using the snapshot button.
-- Zero ads, no paywall or anykind of tracking, contains zero third party scripts.
+- Zero ads, no paywall or any-kind of tracking, contains zero third party scripts.
 - Can open and view on multiple windows.
 - Will warn if connection problems.
-- Remembers last URL used, so you don't need to remember and retype it.
+- Remembers last URL used, so you don't need to.
 - Extremly simple UI, just a few buttons.  
 - Runs offline. Requires no access to the internet, you only need to be connected to the same network as your camera.  
 
@@ -29,24 +29,24 @@ Views MJPEG, or JPG snapshot. Should work with most ONVIF cameras and others.
   Yes, submit the url and then click the gear icon and change it to MJPEG mode in the pop-up menu.   
   Note: when paused on this setting, while the image freezes, it does not actually stop loading the stream. As there were bugs preventing me from easily restarting the stream.  
 
-- Can I view multiple cameras?
+- Can I view multiple cameras?  
   Yes. But not in the same window. You can open as many Simple Camera viewer windows as you need though.  
   Just click the camera icon on your toolbar to open another.
 
-- The stream is choppy, how can I improve this?
+- The stream is choppy, how can I improve this?  
   The FPS you get depends on a few things outside of my control: Your network, and your hardware.  
 
-  To improve the network, you could try connecting the Camera to Ethernet to improve its speed. You can also connect your Computer you are viewing on to Ethernet.  
-  So you would plug a cable from your device/s directly into your router. (Ethernet cables are cheap, and widely available)  
+  To improve the network, you could try connecting the Camera to Ethernet to improve its speed. You can also connect your Computer you are viewing on, to Ethernet.  
 
   You could also try reducing the resolution within your cameras settings. Making the image transferred smaller in filesize and thus faster.  
+    
   Some cameras have an option to change the snapshot/mjpeg streas resolution independantly of what is recorded onto its internal SD card, but many dont, if you change it you could be degrading your recording quality. Read your devices documentation if you can.
 
-- Can I use my smartphone/PC webcam as a camera?
+- Can I use my smartphone/PC webcam as a camera?  
   There are apps and programs out there to turn them into network cameras, which will then give you a snapshot url. 
   
-- Why did you make this?
-  This was a project to learn how to create web-extensions as I have a few other web-apps I wish to release this way. And to test a simpler version of another app I am developing, with much more features. 
+- Why did you make this?  
+  This was a project for me to learn how to create web-extension. And to test a simpler version of another app I am developing, with much more features. 
 
 ## Troubleshooting
 

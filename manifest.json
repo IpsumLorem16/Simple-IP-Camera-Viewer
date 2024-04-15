@@ -14,10 +14,10 @@
   "background": {
     "scripts": ["background.js"]
   },
-  "description": "View Your IP Camera/s",
-  "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/window-manipulator",
+  "description": "View Your IP Camera in the browser",
+  "homepage_url": "https://github.com/IpsumLorem16/Cam-View__Web-Ext-test",
   "manifest_version": 2,
-  "name": "Camera Viewer",
+  "name": "Simple IP Camera Viewer",
   "version": "1.0",
   "permissions": ["webRequest", "webRequestBlocking", "<all_urls>", "storage"]
 }
