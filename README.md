@@ -49,9 +49,10 @@ Views MJPEG, or JPG snapshot. Should work with most ONVIF cameras and others.
   This was a project for me to learn how to create web-extension. And to test a simpler version of another app I am developing, with much more features. 
 
 ## Permissions
-This Extension requires the following permissions: ```webRequest```, ```webRequestBlocking```, ```<all_urls>```, and ```storage```.    
+This extension requires the following permissions:  
+ ```webRequest```, ```webRequestBlocking```, ```<all_urls>```, and ```storage```.    
     
-```storage``: Is to save the last URL used, it will autofill the URL input on reload, or next use.
+```storage```: Is to save the last URL used, it will autofill the URL input on reload, or next use.
   
 ```webRequest```, ```webRequestBlocking```:  To modify the headers on incoming images. To prevent cors issues. Especially when adding the image to canvas to make a downloadable screenshot, or a paused image for MJPEG mode.  
   
