@@ -49,8 +49,7 @@ Views MJPEG, or JPG snapshot. Should work with most ONVIF cameras and others.
   This was a project for me to learn how to create web-extension. And to test a simpler version of another app I am developing, with much more features. 
 
 ## Permissions
-This extension requires the following permissions:  
- ```webRequest```, ```webRequestBlocking```, ```<all_urls>```, and ```storage```.    
+**This extension requires the following permissions:**      
     
 ```storage```: Is to save the last URL used, it will autofill the URL input on reload, or next use.
   
