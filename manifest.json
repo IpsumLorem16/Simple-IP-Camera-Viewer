@@ -15,7 +15,7 @@
     "scripts": ["background.js"]
   },
   "description": "View Your IP Camera in the browser",
-  "homepage_url": "https://github.com/IpsumLorem16/Cam-View__Web-Ext-test",
+  "homepage_url": "https://github.com/IpsumLorem16/Simple-IP-Camera-Viewer",
   "manifest_version": 2,
   "name": "Simple IP Camera Viewer",
   "version": "1.0",
