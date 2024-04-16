@@ -1,5 +1,5 @@
 
-# ![IP Camera](./icons/iconSVG.svg) Simple IP camera Viewer  
+# ![IP Camera](./icons/iconSVG.svg) Simple IP Camera Viewer  
 Simple and free Firefox web-extension to view your IP camera in the browser. 
 
 Views MJPEG, or JPG snapshot. Should work with most ONVIF cameras and others. 
