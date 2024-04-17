@@ -53,7 +53,37 @@ urlForm = {
       },20000) //20s
       img.src = fileUrl;
     })
-  },
+  }, 
+  // Alternative checkFileType, does not work for mjpeg (yet)
+  // Will show password dialog, if snapshot url needs auth 
+  /*   
+  checkFileType(fileUrl) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', fileUrl, true);
+      xhr.responseType = 'blob';
+      xhr.withCredentials = true;
+  
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          const contentType = xhr.getResponseHeader('Content-Type');
+          if (contentType.startsWith('image')) {
+            resolve(true); // Image loaded successfully, it's an image file
+          } else {
+            reject({ isImage: false, message: 'File is not an image' });
+          }
+        } else {
+          reject({ isImage: false, message: 'Failed to load file' });
+        }
+      };
+  
+      xhr.onerror = function() {
+        reject({ isImage: false, message: 'XHR request failed' });
+      };
+  
+      xhr.send();
+    }); 
+  },  */
   setFormDisable(newState) {
     this.urlInput.disabled = newState;
     this.urlSubmitBtn.disabled = newState;
@@ -502,11 +532,16 @@ userMessage.init();
 //    Requires host_permissions in manifest:
 //      "webRequest", "webRequestBlocking", "<all_urls>"
 function setHeader(e) {
-  const newHeader = {
+  const allowOrigin = {
     "name" : "Access-Control-Allow-Origin",
     "value": "*"
   };
-  e.responseHeaders.push(newHeader);
+  const allowCredentials = {
+    "name" : "Access-Control-Allow-Credentials",
+    "value": "true"
+  };
+  e.responseHeaders.push(allowOrigin);
+  e.responseHeaders.push(allowCredentials);
   return {responseHeaders: e.responseHeaders};
 }
 
