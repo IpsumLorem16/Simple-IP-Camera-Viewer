@@ -550,7 +550,6 @@ function setHeader(e) {
   };
   e.responseHeaders.push(allowOrigin);
   e.responseHeaders.push(allowCredentials);
-  console.log('header');
   browser.webRequest.onHeadersReceived.removeListener(setHeader);
   return {responseHeaders: e.responseHeaders};
 }
