@@ -38,6 +38,9 @@ urlForm = {
 
   checkFileType(fileUrl) {
     return new Promise((resolve, reject) => {
+      targetPage = fileUrl;
+      setHeaderListener();
+      console.log(targetPage);
       const img = new Image();
       let loadTimeout;
       img.onload = function() {
@@ -161,8 +164,12 @@ let cameraViewer = {
       let urlContainsParams = this.url.includes('?');
       let cachebuster = `${(urlContainsParams ? '&' : '?')}cacheBuster=${Date.now()}`;
       this._newImage = new Image();
+      const imgUrl =  `${this.url}${cachebuster}`;
       // this._newImage.src = `${this.url}?cacheBuster=${Date.now()}`;
-      this._newImage.src = `${this.url}${cachebuster}`;
+      // this._newImage.src = `${this.url}${cachebuster}`;
+      // targetPage = imgUrl;
+      setHeaderListener();
+      this._newImage.src = imgUrl;
       this._loading = true;
       // if not MJPEG:
       // if (!optionsMenu.mjpegEnabled) {
@@ -535,6 +542,7 @@ function setHeader(e) {
   const allowOrigin = {
     "name" : "Access-Control-Allow-Origin",
     "value": "*"
+
   };
   const allowCredentials = {
     "name" : "Access-Control-Allow-Credentials",
@@ -542,14 +550,20 @@ function setHeader(e) {
   };
   e.responseHeaders.push(allowOrigin);
   e.responseHeaders.push(allowCredentials);
+  console.log('header');
+  browser.webRequest.onHeadersReceived.removeListener(setHeader);
   return {responseHeaders: e.responseHeaders};
 }
+// let targetPage; 
 
-browser.webRequest.onHeadersReceived.addListener(
-  setHeader,
-  {urls: ["<all_urls>"]},
-  ["blocking", "responseHeaders"]
-)
+function setHeaderListener() {
+  browser.webRequest.onHeadersReceived.addListener(
+    setHeader,
+    {urls: ["<all_urls>"]},
+    // { urls: [targetPage] },
+    ["blocking", "responseHeaders"]
+  )
+}
 /** End of Modify Headers **/
 
 // Helper functions:
