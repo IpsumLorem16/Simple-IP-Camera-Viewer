@@ -12,11 +12,18 @@ browser.browserAction.onClicked.addListener((tab) => {
 
   let popupURL = browser.runtime.getURL("popup/popup.html");
 
-  let creating = browser.windows.create({
-    url: popupURL,
-    type: "normal",
-    height: 500,
-    width: 700
+  // let creating = browser.windows.create({
+  //   url: popupURL,
+  //   type: "normal",
+  //   height: 500,
+  //   width: 700
+  // })
+
+  let creating = browser.tabs.create({
+    url: popupURL
   })
+
   creating.then(onCreated, onError);
+
+  
 })
